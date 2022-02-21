@@ -35,7 +35,7 @@
   "resolved" "https://registry.npmjs.org/@babel/compat-data/-/compat-data-7.17.0.tgz"
   "version" "7.17.0"
 
-"@babel/core@*", "@babel/core@^7.0.0", "@babel/core@^7.0.0-0", "@babel/core@^7.1.6", "@babel/core@^7.12.0", "@babel/core@^7.12.9", "@babel/core@^7.13.0", "@babel/core@^7.4.0-0":
+"@babel/core@^7.0.0", "@babel/core@^7.0.0-0", "@babel/core@^7.1.6", "@babel/core@^7.12.0", "@babel/core@^7.12.9", "@babel/core@^7.13.0", "@babel/core@^7.4.0-0":
   "integrity" "sha512-R9x5r4t4+hBqZTmioSnkrW+I6NmbojwjGT8p4G2Gw1thWbXIHGDnmGdLdFw0/7ljucdIrNRp7Npgb4CyBYzzJg=="
   "resolved" "https://registry.npmjs.org/@babel/core/-/core-7.17.4.tgz"
   "version" "7.17.4"
@@ -1554,7 +1554,7 @@
     "hoist-non-react-statics" "^3.3.2"
     "react-native-safe-area-view" "^0.14.9"
 
-"@react-navigation/native@^6.0.0":
+"@react-navigation/native@^6.0.0", "@react-navigation/native@^6.0.8":
   "integrity" "sha512-6022M3+Btok3xJC/49B88er3SRrlDAZ4FdmGndhEVvBcGSHWmscU2qKCwFd0RY6A0AGCVmdIlXudrfdcdRAkpQ=="
   "resolved" "https://registry.npmjs.org/@react-navigation/native/-/native-6.0.8.tgz"
   "version" "6.0.8"
@@ -4804,6 +4804,11 @@
     "flow-parser" "^0.121.0"
     "jscodeshift" "^0.11.0"
     "nullthrows" "^1.1.1"
+
+"react-native-dropdown-picker@^5.3.0":
+  "integrity" "sha512-LUctVMAWiDir1X0WrFX1784psvqzBXRxRujYbvlvKz1Owa6cujrVN98rP356hIXFzX19E7SkbA942fGfMvoEWQ=="
+  "resolved" "https://registry.npmjs.org/react-native-dropdown-picker/-/react-native-dropdown-picker-5.3.0.tgz"
+  "version" "5.3.0"
 
 "react-native-gesture-handler@*", "react-native-gesture-handler@>= 1.0.0":
   "integrity" "sha512-WF25CNgn164bF9juW8N/jICIFXiEOgsxCuY7DRlnFdiH5ZfvMYtZHRC+zr1fFMap2ty1f2HWDQNVVSo0FDXP4A=="
