@@ -15,7 +15,7 @@ export default function LandingScreen(props) {
             <ImageBackground source={home} resizeMode="stretch" style={styles.image}>
                 <Text style={styles.text}>Journy</Text>
                 <View style={styles.buttons}>
-                    <TouchableOpacity >
+                    <TouchableOpacity onPress={() => props.navigation.navigate("SignInScreen")}>
                         <Text style={styles.text}>Team Member</Text>
                     </TouchableOpacity>
                     <TouchableOpacity >

@@ -13,10 +13,10 @@ export default function LandingScreen() {
     const [emailText, setEmailText] = useState("")
     const [passwordText, setPasswordText] = useState("")
     const [open, setOpen] = useState(false);
-    const [role, setRole] = useState(null);
+    const [value, setValue] = useState(null);
     const [items, setItems] = useState([
-        { label: 'Team Member', role: 'team-member' },
-        { label: 'Facilitator', role: 'facilitator' }
+        { label: 'Team Member', value: 'team-member' },
+        { label: 'Facilitator', value: 'facilitator' }
     ]);
     const USER_ID = uuidv4();
 
@@ -49,10 +49,10 @@ export default function LandingScreen() {
                     <View style={{ height: 50, width: 200, backgroundColor: 'blue', margin: 0 }}>
                         <DropDownPicker
                             open={open}
-                            value={role}
+                            value={value}
                             items={items}
                             setOpen={setOpen}
-                            setValue={setRole}
+                            setValue={setValue}
                             setItems={setItems}
                             labelStyle={styles.label}
                         />
@@ -63,7 +63,7 @@ export default function LandingScreen() {
                             name: nameText,
                             email: emailText,
                             password: passwordText,
-                            role: role
+                            role: value
                         });
                     }}>
                         <Text>Finish Sign-up</Text>
