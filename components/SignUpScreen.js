@@ -1,19 +1,24 @@
 import { StyleSheet, Keyboard, Text, TextInput, View, SafeAreaView, TouchableOpacity, ImageBackground, TouchableWithoutFeedback } from 'react-native';
 import { useState } from 'react';
+import { v4 as uuidv4 } from "uuid";
 import DropDownPicker from 'react-native-dropdown-picker'
 import CreamShoes from "../assets/CreamShoes.ttf";
 import home from '../assets/homescreen.png';
 import { Picker } from 'react-native-web';
+import database from "../config/firebase";
+import { ref, set, onValue } from "firebase/database";
+
 export default function LandingScreen() {
     const [nameText, setNameText] = useState("")
     const [emailText, setEmailText] = useState("")
     const [passwordText, setPasswordText] = useState("")
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(null);
+    const [role, setRole] = useState(null);
     const [items, setItems] = useState([
-        { label: 'Apple', value: 'apple' },
-        { label: 'Banana', value: 'banana' }
+        { label: 'Team Member', role: 'team-member' },
+        { label: 'Facilitator', role: 'facilitator' }
     ]);
+    const USER_ID = uuidv4();
 
 
     return (
@@ -37,22 +42,30 @@ export default function LandingScreen() {
                             style={styles.input}
                             onChangeText={setPasswordText}
                             value={passwordText}
+                            secureTextEntry={true}
                             placeholder='Password'
                         />
                     </SafeAreaView>
-                    <View style={{height: 50, width: 200, backgroundColor:'blue', margin:0}}>
+                    <View style={{ height: 50, width: 200, backgroundColor: 'blue', margin: 0 }}>
                         <DropDownPicker
                             open={open}
-                            value={value}
+                            value={role}
                             items={items}
                             setOpen={setOpen}
-                            setValue={setValue}
+                            setValue={setRole}
                             setItems={setItems}
-                            //containerStyle={styles.picker}
                             labelStyle={styles.label}
                         />
                     </View>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => {
+                        set(ref(database, 'users/'), {
+                            id: USER_ID,
+                            name: nameText,
+                            email: emailText,
+                            password: passwordText,
+                            role: role
+                        });
+                    }}>
                         <Text>Finish Sign-up</Text>
                     </TouchableOpacity>
                 </ImageBackground>
