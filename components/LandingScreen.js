@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground } from
 import home from '../assets/homescreen.png'
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
+import styles from '../Styles';
 
 export default function LandingScreen(props) {
     let [fontsLoaded] = useFonts({
@@ -31,7 +32,7 @@ export default function LandingScreen(props) {
         </View>
     );``
 }
-
+/*
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -56,3 +57,4 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     }
 });
+*/

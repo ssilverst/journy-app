@@ -9,6 +9,7 @@ import { ref, set, onValue } from "firebase/database";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import 'firebase/firestore'
 import { useLinkProps } from '@react-navigation/native';
+import styles from '../Styles';
 
 const auth = getAuth();
 
@@ -90,6 +91,7 @@ export default function SignUpScreen(props) {
     );
 }
 
+/*
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -111,3 +113,4 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
 })
+*/

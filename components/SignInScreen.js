@@ -1,12 +1,11 @@
 import { StyleSheet, Alert, Keyboard, Text, TextInput, View, SafeAreaView, TouchableOpacity, ImageBackground, TouchableWithoutFeedback } from 'react-native';
 import { useState } from 'react';
-import DropDownPicker from 'react-native-dropdown-picker'
-import CreamShoes from "../assets/CreamShoes.ttf";
 import home from '../assets/homescreen.png';
 import database from "../config/firebase";
 import { ref, set, onValue } from "firebase/database";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useLinkProps } from '@react-navigation/native';
+import styles from "../Styles";
 
 const auth = getAuth();
 export default function SignInScreen(props) {
@@ -39,7 +38,7 @@ export default function SignInScreen(props) {
                             const user = userCredential.user;
                             // const userRef = ref(db, 'posts/' + postId + '/starCount');
                             console.log("hello")
-                            onValue(ref(database, "users/"+user.uid), (snapshot) => {
+                            onValue(ref(database, "users/" + user.uid), (snapshot) => {
                                 if (snapshot.exists()) {
                                     const userData = snapshot.val();
                                     if (userData.password == passwordText) {
@@ -63,7 +62,7 @@ export default function SignInScreen(props) {
         </TouchableWithoutFeedback >
     );
 }
-
+/*
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -85,3 +84,4 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
 })
+*/
