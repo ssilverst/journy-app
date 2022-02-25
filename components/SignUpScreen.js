@@ -1,4 +1,4 @@
-import { StyleSheet, Keyboard, Text, TextInput, View, SafeAreaView, TouchableOpacity, ImageBackground, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Alert, Keyboard, Text, TextInput, View, SafeAreaView, TouchableOpacity, ImageBackground, TouchableWithoutFeedback } from 'react-native';
 import { useState } from 'react';
 import { v4 as uuidv4 } from "uuid";
 import DropDownPicker from 'react-native-dropdown-picker'
@@ -78,10 +78,8 @@ export default function SignUpScreen(props) {
                                 props.navigation.navigate("SignInScreen")
                             })
                             .catch((error) => {
-                                const errorCode = error.code;
-                                const errorMessage = error.message;
+                                Alert.alert(error.code.substring(5))
                                 console.log(error)
-                                // ..
                             });
                     }}>
                         <Text>Finish Sign-up</Text>
