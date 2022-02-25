@@ -4,19 +4,23 @@ import { v4 as uuidv4 } from "uuid";
 import DropDownPicker from 'react-native-dropdown-picker'
 import CreamShoes from "../assets/CreamShoes.ttf";
 import home from '../assets/homescreen.png';
-import { Picker } from 'react-native-web';
 import database from "../config/firebase";
 import { ref, set, onValue } from "firebase/database";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import 'firebase/firestore'
+import { useLinkProps } from '@react-navigation/native';
 
-export default function LandingScreen() {
+const auth = getAuth();
+
+export default function SignUpScreen(props) {
     const [nameText, setNameText] = useState("")
     const [emailText, setEmailText] = useState("")
     const [passwordText, setPasswordText] = useState("")
     const [open, setOpen] = useState(false);
-    const [role, setRole] = useState(null);
+    const [value, setValue] = useState(null);
     const [items, setItems] = useState([
-        { label: 'Team Member', role: 'team-member' },
-        { label: 'Facilitator', role: 'facilitator' }
+        { label: 'Team Member', value: 'team-member' },
+        { label: 'Facilitator', value: 'facilitator' }
     ]);
     const USER_ID = uuidv4();
 
@@ -46,25 +50,39 @@ export default function LandingScreen() {
                             placeholder='Password'
                         />
                     </SafeAreaView>
-                    <View style={{ height: 50, width: 200, backgroundColor: 'blue', margin: 0 }}>
+                    <View style={{ margin: 0 }}>
                         <DropDownPicker
                             open={open}
-                            value={role}
+                            value={value}
                             items={items}
                             setOpen={setOpen}
-                            setValue={setRole}
+                            setValue={setValue}
                             setItems={setItems}
                             labelStyle={styles.label}
                         />
                     </View>
                     <TouchableOpacity onPress={() => {
-                        set(ref(database, 'users/'), {
-                            id: USER_ID,
-                            name: nameText,
-                            email: emailText,
-                            password: passwordText,
-                            role: role
-                        });
+                        createUserWithEmailAndPassword(auth, emailText, passwordText)
+                            .then((userCredential) => {
+                                // Signed in 
+                                const user = userCredential.user;
+                                user.displayName = nameText
+                                console.log(user)
+                                set(ref(database, 'users/' + user.uid), {
+                                    name: nameText,
+                                    email: emailText,
+                                    password: passwordText,
+                                    role: value,
+                                    journals: []
+                                });
+                                props.navigation.navigate("SignInScreen")
+                            })
+                            .catch((error) => {
+                                const errorCode = error.code;
+                                const errorMessage = error.message;
+                                console.log(error)
+                                // ..
+                            });
                     }}>
                         <Text>Finish Sign-up</Text>
                     </TouchableOpacity>
@@ -89,7 +107,6 @@ const styles = StyleSheet.create({
     },
     image: {
         flex: 1,
-        backgroundColor: 'purple',
         width: '100%',
         height: '100%',
         justifyContent: "center",

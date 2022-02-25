@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground } from
 import home from '../assets/homescreen.png'
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
+
 export default function LandingScreen(props) {
     let [fontsLoaded] = useFonts({
         'Cream-Shoes': require('../assets/CreamShoes.ttf'),
@@ -10,15 +11,15 @@ export default function LandingScreen(props) {
     if (!fontsLoaded) {
         return <AppLoading />
     }
-    return (
+    return ( 
         <View style={styles.container}>
             <ImageBackground source={home} resizeMode="stretch" style={styles.image}>
                 <Text style={styles.text}>Journy</Text>
                 <View style={styles.buttons}>
-                    <TouchableOpacity >
+                    <TouchableOpacity onPress={() => props.navigation.navigate("SignInScreen")}>
                         <Text style={styles.text}>Team Member</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity >
+                    <TouchableOpacity onPress={() => props.navigation.navigate("SignInScreen")}>
                         <Text style={styles.text}>Facilitator</Text>
                     </TouchableOpacity>
                 </View>
