@@ -14,25 +14,22 @@ export default function JournalSelectScreen(props) {
             setJournals(snapshot.val())
         });
     }, [currJournalsId]);
-    // const renderJournals = journals.map((journal, idx) => {
-    //     return (
-    //         <View style={{height: 40, width: 40, backgroundColor: 'yellow'}}>
-    //             <Text>journal.name</Text>
-    //         </View>
-    //     )
-    // })
+
     return (
         <View style={styles.container}>
             <ImageBackground source={mountain} resizeMode="stretch" style={styles.image}>
                 {Array.isArray(journals)
-        ? journals.map((journal, idx) => {
-        return (
-            <View style={{height: 40, width: 40, backgroundColor: 'yellow'}}>
-                <Text>journal.name</Text>
-            </View>
-        )})
-          
-        : null}
+                    ? journals.map((journal, idx) => {
+                        return (
+                            <View style={{ height: 40, width: 40, backgroundColor: 'yellow' }}>
+                                <Text>journal.name</Text>
+                            </View>
+                        )
+                    })
+                    : null}
+                <TouchableOpacity 
+                    onPress={() => props.navigation.navigate("AddJournalScreen", {user: props.user})}
+                    style={styles.addButton}><Text style={{fontSize: 40}}>+</Text></TouchableOpacity>
             </ImageBackground>
         </View>
     );
@@ -58,4 +55,15 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center"
     },
+    addButton: 
+    {
+        backgroundColor: 'white', 
+        borderWidth: 2,
+        borderColor: 'black',
+        position: 'absolute', 
+        bottom: 5, 
+        borderRadius: 20, 
+        width: 50, 
+        alignItems: 'center'
+    }
 })

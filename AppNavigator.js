@@ -5,6 +5,7 @@ import LandingScreen from './components/LandingScreen'
 import SignUpScreen from './components/SignUpScreen'
 import JournalSelectScreen from './components/JournalSelectScreen';
 import SignInScreen from './components/SignInScreen';
+import AddJournalScreen from './components/AddJournalScreen';
 
 const Stack = createStackNavigator();
 
@@ -20,7 +21,7 @@ export default function RootAppNavigator() {
         <Stack.Screen
           name="SignUpScreen"
           component={SignUpScreen}
-          options={{ title: 'SignUp' }}
+          options={{ title: 'Sign Up' }}
         />
         <Stack.Screen
           name="JournalSelectScreen"
@@ -31,6 +32,11 @@ export default function RootAppNavigator() {
           name="SignInScreen"
           component={SignInScreen}
           options={{ title: 'Sign In' }}
+        />
+        <Stack.Screen
+          name="AddJournalScreen"
+          component={AddJournalScreen}
+          options={{ title: 'Add a Journal' }}
         />
       </Stack.Navigator>
     </NavigationContainer>
