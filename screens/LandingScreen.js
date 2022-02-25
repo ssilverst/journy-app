@@ -15,10 +15,10 @@ export default function LandingScreen(props) {
             <ImageBackground source={home} resizeMode="stretch" style={styles.image}>
                 <Text style={styles.text}>Journy</Text>
                 <View style={styles.buttons}>
-                    <TouchableOpacity onPress={() => props.navigation.navigate("SignInScreen")}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate("SignInScreen", {"type": "team member"})}>
                         <Text style={styles.text}>Team Member</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity >
+                    <TouchableOpacity onPress={() => props.navigation.navigate("SignInScreen", {"type": "facilitator"})}>
                         <Text style={styles.text}>Facilitator</Text>
                     </TouchableOpacity>
                 </View>

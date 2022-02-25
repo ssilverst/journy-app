@@ -5,7 +5,7 @@ import CreamShoes from "../assets/CreamShoes.ttf";
 export default function Background(props) {
     return (
         <View style={styles.container}>
-            <ImageBackground source={require("../assets/homescreen.png")} resizeMode="stretch" style={styles.image}>
+            <ImageBackground source={props.image} resizeMode="stretch" style={styles.image}>
                 {props.children}
             </ImageBackground>
         </View>
