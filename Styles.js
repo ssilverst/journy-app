@@ -29,7 +29,14 @@ const styles = StyleSheet.create({
     buttons: {
         alignItems: 'center',
         display: 'flex'
-     }
+    },
+    title: {
+        fontFamily: 'Cream-Shoes',
+        color: 'black',
+        fontSize: 100,
+        textAlign: 'center',
+        margin: 20,
+    }
 })
 
 export default styles;
