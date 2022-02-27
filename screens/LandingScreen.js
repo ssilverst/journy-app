@@ -16,6 +16,11 @@ export default function LandingScreen(props) {
     return ( 
         <View style={styles.container}>
             <ImageBackground source={home} resizeMode="stretch" style={styles.image}>
+                <Tappable 
+                    onPress={() => props.navigation.navigate("TestingScreen")}
+                    text="tester"
+                    type="underlined"
+                />
                 <Text style={styles.title}>Journy</Text>
                 <View style={styles.buttons}>
                     <Tappable 
