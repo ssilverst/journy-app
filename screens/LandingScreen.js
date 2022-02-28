@@ -3,6 +3,7 @@ import home from '../assets/homescreen.png'
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import styles from '../Styles';
+import Tappable from '../components/tappable';
 
 export default function LandingScreen(props) {
     let [fontsLoaded] = useFonts({
@@ -15,21 +16,33 @@ export default function LandingScreen(props) {
     return ( 
         <View style={styles.container}>
             <ImageBackground source={home} resizeMode="stretch" style={styles.image}>
-                <Text style={styles.text}>Journy</Text>
+                <Tappable 
+                    onPress={() => props.navigation.navigate("TestingScreen")}
+                    text="tester"
+                    type="underlined"
+                />
+                <Text style={styles.title}>Journy</Text>
                 <View style={styles.buttons}>
-                    <TouchableOpacity onPress={() => props.navigation.navigate("SignInScreen")}>
-                        <Text style={styles.text}>Team Member</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => props.navigation.navigate("SignInScreen")}>
-                        <Text style={styles.text}>Facilitator</Text>
-                    </TouchableOpacity>
+                    <Tappable 
+                        onPress={() => props.navigation.navigate("SignInScreen")}
+                        text="Team Member"
+                        type="normal"
+                    />
+                    <Tappable 
+                        onPress={() => props.navigation.navigate("SignInScreen")}
+                        text="Facilitator"
+                        type="normal"
+                    />
                 </View>
-                <TouchableOpacity style={styles.text} onPress={() => props.navigation.navigate("SignUpScreen")}>
-                    <Text style={styles.text}>Create Account</Text>
-                </TouchableOpacity>
+                <Tappable
+                    onPress={() => props.navigation.navigate("SignUpScreen")}
+                    text="Create Account"
+                    type="underlined"
+                />
             </ImageBackground>
 
         </View>
+        
     );``
 }
 /*

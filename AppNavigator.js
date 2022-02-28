@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import LandingScreen from './screens/LandingScreen'
-import SignUpScreen from './screens/SignUpScreen'
+import LandingScreen from './screens/LandingScreen';
+import SignUpScreen from './screens/SignUpScreen';
 import JournalSelectScreen from './screens/JournalSelectScreen';
 import SignInScreen from './screens/SignInScreen';
+import TestingScreen from './screens/TestingScreen';
 
 const Stack = createStackNavigator();
 
@@ -16,6 +17,11 @@ export default function RootAppNavigator() {
           name="LandingScreen"
           component={LandingScreen}
           options={{ title: 'Landing' }}
+        />
+        <Stack.Screen
+          name="TestingScreen"
+          component={TestingScreen}
+          options={{ title: 'Testing' }}
         />
         <Stack.Screen
           name="SignUpScreen"
