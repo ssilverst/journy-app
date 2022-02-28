@@ -23,7 +23,7 @@ export default function SignUpScreen(props) {
         { label: 'Team Member', value: 'team-member' },
         { label: 'Facilitator', value: 'facilitator' }
     ]);
-    const USER_ID = uuidv4();
+    
 
 
     return (
@@ -71,6 +71,7 @@ export default function SignUpScreen(props) {
                                 console.log(user)
                                 set(ref(database, 'users/' + user.uid), {
                                     name: nameText,
+                                    id: user.uid,
                                     email: emailText,
                                     password: passwordText,
                                     role: value,

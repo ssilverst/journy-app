@@ -37,7 +37,6 @@ export default function SignInScreen(props) {
                             // Signed in 
                             const user = userCredential.user;
                             // const userRef = ref(db, 'posts/' + postId + '/starCount');
-                            console.log("hello")
                             onValue(ref(database, "users/" + user.uid), (snapshot) => {
                                 if (snapshot.exists()) {
                                     const userData = snapshot.val();
