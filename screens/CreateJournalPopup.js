@@ -8,11 +8,10 @@ import { ref, set, onValue } from "firebase/database";
 export default function CreateJournalPopup(props) {
     const [journalName, setJournalName] = useState(null)
     const [journalId, setJournalId] = useState(null)
-    const [copiedText, setCopiedText] = useState('');
 
 
     const journals = props.user.journals
-    const user = ref(database, 'users/' + props.user.id + '/journals')
+    const userJournals = ref(database, 'users/' + props.user.id + '/journals')
     const [showCode, setShowCode] = useState(false)
     return (
         <View style={styles.container}>
@@ -35,7 +34,8 @@ export default function CreateJournalPopup(props) {
                         name: journalName,
                         users: [props.user.id]
                     });
-                    set(user, (journals ? journals : [JOURNAL_ID]))
+                    set(userJournals, (journals ? journals : [JOURNAL_ID]))
+                    props.updateJournals(JOURNAL_ID)
                 }}><Text>Enter</Text></TouchableOpacity>
 
             </SafeAreaView> :

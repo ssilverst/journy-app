@@ -11,20 +11,29 @@ import CreateJournalPopup from './CreateJournalPopup';
 export default function JournalSelectScreen(props) {
     const [showFacilitatorPopup, setShowFacilitatorPopup] = useState(false)
     const [showTeamPopup, setShowTeamPopup] = useState(false)
-
+    const [journals, setJournals] = useState([])
+    useEffect(() => {
+        console.log('we update')
+        Array.isArray(props.route.params.user.journals) && props.route.params.user.journals.map((journalId, idx) => {
+            addToJournal(journalId)
+        })
+    }, []);
+    const addToJournal = (journalId) => {
+        if (journalId) {
+            onValue(ref(database, 'journals/' + journalId), (snapshot) => {
+                console.log(journalId)
+                setJournals(journals => [...journals, snapshot.val()])
+            })
+        }
+    }
     return (
         <TouchableWithoutFeedback style={{backgroundColor: 'pink'}} onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.container}>
                 <ImageBackground source={mountain} resizeMode="stretch" style={styles.image}>
-                    {Array.isArray(props.route.params.user.journals)
-                        ? props.route.params.user.journals.map((journalId, idx) => {
-                            var journal = null
-                            onValue(ref(database, 'journals/' + journalId), (snapshot) => {
-                                console.log(snapshot.val())
-                                journal = snapshot.val()
-                            })
+                    {Array.isArray(journals)
+                        ? journals.map((journal, idx) => {
                             return (
-                                <View style={{ height: 40, width: 100, backgroundColor: 'yellow', borderColor: 'black', borderWidth: 2 }}>
+                                <View key={idx} style={{ height: 40, width: 100, backgroundColor: 'yellow', borderColor: 'black', borderWidth: 2 }}>
                                     <Text>{journal && journal.name}</Text>
                                 </View>
                             )
@@ -37,7 +46,10 @@ export default function JournalSelectScreen(props) {
                             }}
                         style={styles.addButton}><Text style={{fontSize: 40}}>+</Text></TouchableOpacity>
                     {showTeamPopup && <AddJournalPopup user={props.route.params.user} closePopup={() => setShowTeamPopup(false)}/>}
-                    {showFacilitatorPopup && <CreateJournalPopup navigation={props.navigation} user={props.route.params.user} closePopup={() => setShowFacilitatorPopup(false)} />}
+                    {showFacilitatorPopup && <CreateJournalPopup updateJournals={(journalId) => {
+                        // setJournals(journals => [...journals, journalId])
+                        addToJournal(journalId)
+                        }} navigation={props.navigation} user={props.route.params.user} closePopup={() => setShowFacilitatorPopup(false)} />}
                 </ImageBackground>
             </View>
         </TouchableWithoutFeedback>
