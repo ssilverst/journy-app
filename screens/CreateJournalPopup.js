@@ -15,8 +15,8 @@ export default function CreateJournalPopup(props) {
     const [showCode, setShowCode] = useState(false)
     return (
         <View style={styles.container}>
+            <TouchableOpacity style={{ left: 305 }} onPress={props.closePopup}><Text style={{ fontSize: 20 }}>x</Text></TouchableOpacity>
             {!showCode ? <SafeAreaView>
-                <TouchableOpacity style={{ left: 305 }} onPress={props.closePopup}><Text style={{ fontSize: 20 }}>x</Text></TouchableOpacity>
                 <TextInput
                     style={styles.input}
                     onChangeText={setJournalName}
@@ -42,8 +42,8 @@ export default function CreateJournalPopup(props) {
                 <SafeAreaView>
                     <TouchableOpacity onPress={() => Clipboard.setString(journalId)}><Text>Code: {journalId}</Text></TouchableOpacity>
 
-            <Text>When team members on this team log in, have them enter this code to access this journal.</Text>
-        </SafeAreaView>}
+                    <Text>When team members on this team log in, have them enter this code to access this journal.</Text>
+                </SafeAreaView>}
 
         </View >
     );

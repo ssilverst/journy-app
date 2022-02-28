@@ -1,4 +1,4 @@
-import { StyleSheet, Keyboard, Text, TextInput, View, SafeAreaView, TouchableOpacity, ImageBackground, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Keyboard, Text, Alert, TextInput, View, SafeAreaView, TouchableOpacity, ImageBackground, TouchableWithoutFeedback } from 'react-native';
 import { useState, useEffect } from 'react';
 import DropDownPicker from 'react-native-dropdown-picker'
 import CreamShoes from "../assets/CreamShoes.ttf";
@@ -12,8 +12,9 @@ export default function JournalSelectScreen(props) {
     const [showFacilitatorPopup, setShowFacilitatorPopup] = useState(false)
     const [showTeamPopup, setShowTeamPopup] = useState(false)
     const [journals, setJournals] = useState([])
+    const [alert, setAlert] = useState(false)
+    const [alertText, setAlertText] = useState("")
     useEffect(() => {
-        console.log('we update')
         Array.isArray(props.route.params.user.journals) && props.route.params.user.journals.map((journalId, idx) => {
             addToJournal(journalId)
         })
@@ -45,11 +46,10 @@ export default function JournalSelectScreen(props) {
                                 props.route.params.user.role === "team-member" ? setShowTeamPopup(true) : setShowFacilitatorPopup(true)
                             }}
                         style={styles.addButton}><Text style={{fontSize: 40}}>+</Text></TouchableOpacity>
-                    {showTeamPopup && <AddJournalPopup user={props.route.params.user} closePopup={() => setShowTeamPopup(false)}/>}
-                    {showFacilitatorPopup && <CreateJournalPopup updateJournals={(journalId) => {
-                        // setJournals(journals => [...journals, journalId])
-                        addToJournal(journalId)
-                        }} navigation={props.navigation} user={props.route.params.user} closePopup={() => setShowFacilitatorPopup(false)} />}
+
+                    {showTeamPopup && <AddJournalPopup showAlert={(alertText) => Alert.alert(alertText)} updateJournals={(journalId) => addToJournal(journalId)} user={props.route.params.user} closePopup={() => setShowTeamPopup(false)}/>}
+
+                    {showFacilitatorPopup && <CreateJournalPopup updateJournals={(journalId) => addToJournal(journalId)} navigation={props.navigation} user={props.route.params.user} closePopup={() => setShowFacilitatorPopup(false)} />}
                 </ImageBackground>
             </View>
         </TouchableWithoutFeedback>

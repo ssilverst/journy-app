@@ -21,25 +21,30 @@ export default function AddJournalPopup(props) {
                 />
                 <TouchableOpacity style={{ width: 100, height: 30, left: 110, backgroundColor: 'white', alignItems: 'center', borderRadius: 10 }} onPress={() => {
                     onValue(ref(database, "journals/" + journalCode), (snapshot) => {
-                        if (snapshot.exists()) {
-                            const journalRef = ref(database, 'journals/' + journalCode + '/users')
-                            if (journals) {
-                                journals.push(journalCode)
-                            }
-                            onValue(journalRef, (snapshot) => {
-                                var journalUsers = snapshot.val()
-                                if (journalUsers.indexOf(props.user.id) <= -1) {
-                                    journalUsers.push(props.user.id)
-                                    console.log(journalUsers)
-                                    set(journalRef, journalUsers)
+                        if (journals.indexOf(journalCode) <= -1) {
+                            if (snapshot.exists()) {
+                                const journalRef = ref(database, 'journals/' + journalCode + '/users')
+                                if (journals) {
+                                    journals.push(journalCode)
                                 }
-                            })
-                            set(ref(database, "users/" + props.user.id + "/journals"), (journals ? journals : [journalCode]))
-                            props.closePopup()
+                                onValue(journalRef, (snapshot) => {
+                                    var journalUsers = snapshot.val()
+                                    if (journalUsers.indexOf(props.user.id) <= -1) {
+                                        journalUsers.push(props.user.id)
+                                        set(journalRef, journalUsers)
+                                    }
+                                })
+                                set(ref(database, "users/" + props.user.id + "/journals"), (journals ? journals : [journalCode]))
+                                props.updateJournals(journalCode)
+                                props.closePopup()
 
+                            }
+                            else {
+                                props.showAlert("Check the code you are using. This journal does not exist.")
+                            }
                         }
                         else {
-                            console.log("this journal does not exist")
+                            props.showAlert("You already have this journal")
                         }
                     });
                 }}><Text>Enter</Text></TouchableOpacity>
