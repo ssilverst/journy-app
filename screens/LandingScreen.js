@@ -25,12 +25,7 @@ export default function LandingScreen(props) {
                 <View style={styles.buttons}>
                     <Tappable 
                         onPress={() => props.navigation.navigate("SignInScreen")}
-                        text="Team Member"
-                        type="normal"
-                    />
-                    <Tappable 
-                        onPress={() => props.navigation.navigate("SignInScreen")}
-                        text="Facilitator"
+                        text="Sign In"
                         type="normal"
                     />
                 </View>

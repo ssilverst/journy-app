@@ -74,7 +74,6 @@ export default function SignUpScreen(props) {
                                     id: user.uid,
                                     email: emailText,
                                     password: passwordText,
-                                    role: value,
                                     journals: []
                                 });
                                 props.navigation.navigate("SignInScreen")

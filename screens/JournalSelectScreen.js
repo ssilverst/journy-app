@@ -7,6 +7,7 @@ import database from "../config/firebase";
 import { ref, set, onValue } from "firebase/database";
 import AddJournalPopup from './AddJournalPopup';
 import CreateJournalPopup from './CreateJournalPopup';
+import Book from '../components/book';
 
 export default function JournalSelectScreen(props) {
     const [showFacilitatorPopup, setShowFacilitatorPopup] = useState(false)
@@ -14,7 +15,9 @@ export default function JournalSelectScreen(props) {
     const [journals, setJournals] = useState([])
     const [alert, setAlert] = useState(false)
     const [alertText, setAlertText] = useState("")
+    const [chooseRole, setChooseRole] = useState(false)
     useEffect(() => {
+        setJournals([])
         Array.isArray(props.route.params.user.journals) && props.route.params.user.journals.map((journalId, idx) => {
             addToJournal(journalId)
         })
@@ -28,28 +31,34 @@ export default function JournalSelectScreen(props) {
         }
     }
     return (
-        <TouchableWithoutFeedback style={{backgroundColor: 'pink'}} onPress={Keyboard.dismiss} accessible={false}>
+        <TouchableWithoutFeedback style={{ backgroundColor: 'pink' }} onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.container}>
                 <ImageBackground source={mountain} resizeMode="stretch" style={styles.image}>
-                    {Array.isArray(journals)
-                        ? journals.map((journal, idx) => {
-                            return (
-                                <View key={idx} style={{ height: 40, width: 100, backgroundColor: 'yellow', borderColor: 'black', borderWidth: 2 }}>
-                                    <Text>{journal && journal.name}</Text>
-                                </View>
-                            )
-                        })
-                        : null}
-                    <TouchableOpacity 
-                        onPress={() => 
-                            {
-                                props.route.params.user.role === "team-member" ? setShowTeamPopup(true) : setShowFacilitatorPopup(true)
-                            }}
-                        style={styles.addButton}><Text style={{fontSize: 40}}>+</Text></TouchableOpacity>
+                    <View style={{ width: '100%', height: '70%', position: 'absolute', top: 130, display: 'flex', alignItems: 'center', flexBasis: '100%', flexWrap: 'wrap', justifyContent: 'center', flexDirection: 'row' }}>
+                        {Array.isArray(journals)
+                            ? journals.map((journal, idx) => {
+                                return (
+                                    <View key={idx} style={{ padding: 10 }}>
+                                        <Book title={journal.name} />
+                                    </View>
+                                )
+                            })
+                            : null}
+                    </View>
+                    {chooseRole &&
+                        <View style={{ position: 'absolute', borderRadius: 20, bottom: 80, display: 'flex', backgroundColor: '#fffdd0' }}>
+                            <TouchableOpacity style={{ padding: 10, borderBottomWidth: 2 }} onPress={() => {setShowTeamPopup(true);setChooseRole(false)}}><Text>Join as Team Member</Text></TouchableOpacity>
+                            <TouchableOpacity style={{ padding: 10 }} onPress={() => {setShowFacilitatorPopup(true);setChooseRole(false)}}><Text>Create as Facilitator</Text></TouchableOpacity>
+                        </View>
+                    }
+                    {showTeamPopup && <AddJournalPopup style={{ position: 'absolute', top: 40 }} showAlert={(alertText) => Alert.alert(alertText)} updateJournals={(journalId) => addToJournal(journalId)} user={props.route.params.user} closePopup={() => setShowTeamPopup(false)} />}
 
-                    {showTeamPopup && <AddJournalPopup showAlert={(alertText) => Alert.alert(alertText)} updateJournals={(journalId) => addToJournal(journalId)} user={props.route.params.user} closePopup={() => setShowTeamPopup(false)}/>}
+                    {showFacilitatorPopup && <CreateJournalPopup style={{ position: 'absolute', top: 40 }} updateJournals={(journalId) => addToJournal(journalId)} navigation={props.navigation} user={props.route.params.user} closePopup={() => setShowFacilitatorPopup(false)} />}
 
-                    {showFacilitatorPopup && <CreateJournalPopup updateJournals={(journalId) => addToJournal(journalId)} navigation={props.navigation} user={props.route.params.user} closePopup={() => setShowFacilitatorPopup(false)} />}
+
+                    <TouchableOpacity
+                        onPress={() => setChooseRole(!chooseRole)}
+                        style={styles.addButton}><Text style={{ fontSize: 40 }}>+</Text></TouchableOpacity>
                 </ImageBackground>
             </View>
         </TouchableWithoutFeedback>
@@ -76,15 +85,15 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center"
     },
-    addButton: 
+    addButton:
     {
-        backgroundColor: 'white', 
+        backgroundColor: 'white',
         borderWidth: 2,
         borderColor: 'black',
-        position: 'absolute', 
-        bottom: 5, 
-        borderRadius: 20, 
-        width: 50, 
+        position: 'absolute',
+        bottom: 5,
+        borderRadius: 20,
+        width: 50,
         alignItems: 'center'
     }
 })
