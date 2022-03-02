@@ -1,14 +1,12 @@
 import { StyleSheet, Alert, Keyboard, Text, TextInput, View, SafeAreaView, TouchableOpacity, ImageBackground, TouchableWithoutFeedback } from 'react-native';
 import { useState } from 'react';
-import { v4 as uuidv4 } from "uuid";
-import DropDownPicker from 'react-native-dropdown-picker'
-import CreamShoes from "../assets/CreamShoes.ttf";
+
+import Tappable from '../components/tappable';
 import home from '../assets/homescreen.png';
 import database from "../config/firebase";
 import { ref, set, onValue } from "firebase/database";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import 'firebase/firestore'
-import { useLinkProps } from '@react-navigation/native';
 import styles from '../Styles';
 
 const auth = getAuth();
@@ -51,18 +49,7 @@ export default function SignUpScreen(props) {
                             placeholder='Password'
                         />
                     </SafeAreaView>
-                    <View style={{ margin: 0 }}>
-                        <DropDownPicker
-                            open={open}
-                            value={value}
-                            items={items}
-                            setOpen={setOpen}
-                            setValue={setValue}
-                            setItems={setItems}
-                            labelStyle={styles.label}
-                        />
-                    </View>
-                    <TouchableOpacity onPress={() => {
+                    <Tappable onPress={() => {
                         createUserWithEmailAndPassword(auth, emailText, passwordText)
                             .then((userCredential) => {
                                 // Signed in 
@@ -82,35 +69,9 @@ export default function SignUpScreen(props) {
                                 Alert.alert(error.code.substring(5))
                                 console.log(error)
                             });
-                    }}>
-                        <Text>Finish Sign-up</Text>
-                    </TouchableOpacity>
+                    }} text={"Finish Sign Up"} type={"underlined"}/>
                 </ImageBackground>
             </View>
         </TouchableWithoutFeedback >
     );
 }
-
-/*
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    input: {
-        height: 40,
-        margin: 12,
-        borderWidth: 1,
-        padding: 10,
-        width: 300
-    },
-    image: {
-        flex: 1,
-        width: '100%',
-        height: '100%',
-        justifyContent: "center",
-        alignItems: "center"
-    },
-})
-*/

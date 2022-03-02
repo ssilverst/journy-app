@@ -7,6 +7,13 @@ import SignUpScreen from './screens/SignUpScreen';
 import JournalSelectScreen from './screens/JournalSelectScreen';
 import SignInScreen from './screens/SignInScreen';
 import TestingScreen from './screens/TestingScreen';
+import HomeScreenTeamMember from './screens/HomeScreenTeamMember';
+import WritingPromptScreen from './screens/WritingPromptScreen';
+import { useFonts } from '@use-expo/font';
+import AppLoading from 'expo-app-loading';
+const customFonts = {
+  CreamShoes: require("./assets/fonts/CreamShoes.ttf"),
+};
 import database from "./config/firebase";
 import { ref, set, onValue } from "firebase/database";
 
@@ -17,33 +24,49 @@ export default function RootAppNavigator() {
   // useEffect(() => {
   //   set(ref(database, 'journals/'), {})
   // }, []);
+  const [isLoaded] = useFonts(customFonts);
+
+
+    if (!isLoaded) {
+        return <AppLoading />;
+    }
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="LandingScreen">
         <Stack.Screen
           name="LandingScreen"
           component={LandingScreen}
-          options={{ title: 'Landing' }}
+          options={{ title: 'Journy' }}
         />
         <Stack.Screen
           name="TestingScreen"
           component={TestingScreen}
-          options={{ title: 'Testing' }}
+          options={{ title: 'Journy' }}
         />
         <Stack.Screen
           name="SignUpScreen"
           component={SignUpScreen}
-          options={{ title: 'Sign Up' }}
+          options={{ title: 'Journy' }}
         />
         <Stack.Screen
           name="JournalSelectScreen"
           component={JournalSelectScreen}
-          options={{ title: 'Journal Select' }}
+          options={{ title: 'Journy' }}
         />
         <Stack.Screen
           name="SignInScreen"
           component={SignInScreen}
-          options={{ title: 'Sign In' }}
+          options={{ title: 'Journy' }}
+        />
+        <Stack.Screen
+          name="HomeScreenTeamMember"
+          component={HomeScreenTeamMember}
+          options={{ title: 'Journy' }}
+        />
+        <Stack.Screen
+          name="WritingPromptScreen"
+          component={WritingPromptScreen}
+          options={{ title: 'Journy' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

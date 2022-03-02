@@ -34,18 +34,16 @@ const buttonStyle = StyleSheet.create({
         marginVertical: 10
     },
     underlinedText: {
-        fontFamily: 'Cream-Shoes', 
+        fontFamily: 'CreamShoes', 
         color: 'black', 
         fontSize: 30,
         textAlign: 'center',
         textDecorationLine: "underline",
     },
     underlinedTO: {
-        //backgroundColor: "white",
         borderRadius: 10,
         paddingVertical: 6,
         paddingHorizontal: 12,
-        //borderWidth: 5,
         borderColor:'pink',
         marginVertical: 10
     }

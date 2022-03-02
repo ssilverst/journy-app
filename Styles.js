@@ -7,11 +7,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     input: {
-        height: 40,
         margin: 12,
         borderWidth: 1,
+        borderRadius: 4,
         padding: 10,
-        width: 300
+        width: 300,
+        fontSize: 25,
+        fontFamily: 'CreamShoes', 
+
     },
     image: {
         flex: 1,
@@ -21,7 +24,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     text: {
-        fontFamily: 'Cream-Shoes', 
+        fontFamily: 'CreamShoes', 
         color: 'black', 
         fontSize: 60,
         textAlign: 'center',
@@ -31,7 +34,7 @@ const styles = StyleSheet.create({
         display: 'flex'
     },
     title: {
-        fontFamily: 'Cream-Shoes',
+        fontFamily: 'CreamShoes',
         color: 'black',
         fontSize: 100,
         textAlign: 'center',

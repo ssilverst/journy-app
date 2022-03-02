@@ -1,8 +1,5 @@
-import { StyleSheet, Keyboard, Text, TextInput, View, SafeAreaView, TouchableOpacity, ImageBackground, TouchableWithoutFeedback } from 'react-native';
-import { useState, useEffect, useReducer } from 'react';
-import DropDownPicker from 'react-native-dropdown-picker'
-import CreamShoes from "../assets/CreamShoes.ttf";
-import mountain from '../assets/backgrounds/littleMountains.png';
+import { StyleSheet, Text, TextInput, View, SafeAreaView, TouchableOpacity } from 'react-native';
+import { useState } from 'react';
 import database from "../config/firebase";
 import { ref, set, onValue } from "firebase/database";
 

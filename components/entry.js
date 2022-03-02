@@ -21,7 +21,7 @@ const entryStyle = StyleSheet.create({
         borderRadius: 10,
     },
     title: {
-        fontFamily: 'Cream-Shoes', 
+        fontFamily: 'CreamShoes', 
         color: 'black', 
         fontSize: 20,
         textAlign: 'center',

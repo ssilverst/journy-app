@@ -6,12 +6,13 @@ import { ref, set, onValue } from "firebase/database";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useLinkProps } from '@react-navigation/native';
 import styles from "../Styles";
+import Tappable from '../components/tappable';
 
 const auth = getAuth();
 export default function SignInScreen(props) {
     const [emailText, setEmailText] = useState("")
     const [passwordText, setPasswordText] = useState("")
-    
+
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.container}>
@@ -31,33 +32,37 @@ export default function SignInScreen(props) {
                             placeholder='Password'
                         />
                     </SafeAreaView>
-                    <TouchableOpacity onPress={() => {
-                        signInWithEmailAndPassword(auth, emailText, passwordText)
-                        .then((userCredential) => {
-                            // Signed in 
-                            const user = userCredential.user;
-                            // const userRef = ref(db, 'posts/' + postId + '/starCount');
-                            onValue(ref(database, "users/" + user.uid), (snapshot) => {
-                                if (snapshot.exists()) {
-                                    const userData = snapshot.val();
-                                    if (userData.password == passwordText) {
-                                        props.navigation.navigate("JournalSelectScreen", {user: userData})
-                                    }
-                                }
-                                else {
-                                    console.log("user does not exist")
-                                }
-                            });
-                        })
-                        .catch((error) => {
-                            Alert.alert(error.code.substring(5))
-                            console.log(error)
-                        });
-                    }}>
-                        <Text>Sign In</Text>
-                    </TouchableOpacity>
-                </ImageBackground>
-            </View>
+
+                    <Tappable
+                        onPress={() => 
+                        {
+                            signInWithEmailAndPassword(auth, emailText, passwordText)
+                                .then((userCredential) => {
+                                    // Signed in 
+                                    const user = userCredential.user;
+                                    // const userRef = ref(db, 'posts/' + postId + '/starCount');
+                                    onValue(ref(database, "users/" + user.uid), (snapshot) => {
+                                        if (snapshot.exists()) {
+                                            const userData = snapshot.val();
+                                            if (userData.password == passwordText) {
+                                                props.navigation.navigate("JournalSelectScreen", { user: userData })
+                                            }
+                                        }
+                                        else {
+                                            console.log("user does not exist")
+                                        }
+                                    });
+                                })
+                                .catch((error) => {
+                                    Alert.alert(error.code.substring(5))
+                                    console.log(error)
+                                });
+                        }}
+                        text="Sign In"
+                        type="underlined"
+                    />
+            </ImageBackground>
+        </View>
         </TouchableWithoutFeedback >
     );
 }

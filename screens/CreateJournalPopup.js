@@ -1,7 +1,7 @@
-import { StyleSheet, Keyboard, Text, TextInput, View, SafeAreaView, TouchableOpacity, TouchableWithoutFeedback, Touchable } from 'react-native';
+import { StyleSheet, Text, TextInput, View, SafeAreaView, TouchableOpacity } from 'react-native';
 import * as Clipboard from 'expo-clipboard'
 
-import { useState, useEffect, useReducer } from 'react';
+import { useState } from 'react';
 import { v4 as uuidv4 } from "uuid";
 import database from "../config/firebase";
 import { ref, set, onValue } from "firebase/database";
@@ -32,7 +32,8 @@ export default function CreateJournalPopup(props) {
                     }
                     set(ref(database, 'journals/' + JOURNAL_ID), {
                         name: journalName,
-                        users: [props.user.id]
+                        users: [props.user.id],
+                        facilitator: props.user.id
                     });
                     set(userJournals, (journals ? journals : [JOURNAL_ID]))
                     props.updateJournals(JOURNAL_ID)
