@@ -44,7 +44,7 @@ export default function HomeScreenTeamMember(props) {
             <View style={styles.container}>
                 <ImageBackground source={mountain} resizeMode="stretch" style={styles.image}>
                     {recentJourny ? <Text>displaying recent journy</Text> : props.navigation.navigate("WritingPromptScreen", {journal: props.journal, promptObject: prompts.mood})}
-                    <TouchableOpacity><Tappable  onPress={() => props.navigation.navigate("WritingPromptScreen", {journal: props.journal, promptObject: prompts.mood})}
+                    <TouchableOpacity><Tappable  onPress={() => props.navigation.navigate("PromptTypeScreen", {journal: props.journal})}
                     text="New Entry"
                     type="normal"/></TouchableOpacity>
                 </ImageBackground>
