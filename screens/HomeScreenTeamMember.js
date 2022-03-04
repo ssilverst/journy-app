@@ -1,74 +1,66 @@
-import { StyleSheet, Keyboard, Text, Alert, View, TouchableOpacity, ImageBackground, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Keyboard, Text, View, ImageBackground, TouchableWithoutFeedback } from 'react-native';
 import { useState, useEffect } from 'react';
 import mountain from '../assets/backgrounds/littleMountains.png';
-import database from "../config/firebase";
-import { set, ref, onValue } from "firebase/database";
-import pink from '../assets/backgrounds/pinkBackground.png'
-import purple from '../assets/backgrounds/purpleBlueBackground.png'
-import orange from '../assets/backgrounds/orangeBackground.png'
-import green from '../assets/backgrounds/greenBackground.png'
 import Tappable from '../components/tappable';
+import database from "../config/firebase";
+import { ref, set, onValue } from "firebase/database";
+import RecentJourny from '../components/recent_journy';
+import styles from '../Styles';
 
 export default function HomeScreenTeamMember(props) {
-    const prompts = {
-        'mood':
-        {
-            'image': pink,
-            'prompt': 'How did you feel after today’s meeting?',
-            'type': 'mood'
-        },
-        'communication':
-        {
-            'image': purple,
-            'prompt': 'What can be improved about the team’s communication?',
-            'type': 'communication'
-        },
-        'productivity':
-        {
-            'image': orange,
-            'prompt': 'What were your biggest breakthroughs today?',
-            'type': 'productivity'
-        },
-        'free':
-        {
-            'image': green,
-            'prompt': 'The space is yours!',
-            'type': 'free'
-        }
-    }
     const [recentJourny, setRecentJourny] = useState(null)
     const [entryDate, setEntryDate] = useState(null)
     const [journyPath, setJournyPath] = useState(null)
+
     useEffect(() => {
         const today = new Date()
-        setEntryDate(today.getDate() + "_" + today.getMonth() + "_" + today.getFullYear())
-        setJournyPath("journals/" + props.route.params.journal.id + "/journys/" + entryDate)
-        // onValue(ref(database, "journals/" + props.route.params.journal.id + "/journys/" + entryDate), (snapshot) => {
-        //     if (snapshot.exists()){
+        const month = new Date().getMonth() + 1
+        const date = month + "_" + today.getDate() + "_" + today.getFullYear()
+        setEntryDate(date)
+        onValue(ref(database, "journals/" + props.route.params.journal.id + "/journys/" + date), (snapshot) => {
+            if (snapshot.exists()) {
+                setRecentJourny(snapshot.val())
+            }
+            else {
+                setRecentJourny('none')
+            }
+        })
 
-        //     }
-        //     })
-
+        setJournyPath("journals/" + props.route.params.journal.id + "/journys/" + date)
     }, []);
+    const addRecentEntry = () => {
+        if (recentJourny) {
+            if (recentJourny == "none") {
+                props.navigation.navigate("PromptTypeScreen", { user: props.route.params.user, journal: props.route.params.journal, entryDate: entryDate, journyPath: journyPath })
+            }
+            else {
+                return (
+                    <RecentJourny journy={recentJourny} entryDate={entryDate}/>
+                )
+            }
+        }
+    }
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.container}>
                 <ImageBackground source={mountain} resizeMode="stretch" style={styles.image}>
+                    <Text style={[styles.text, {fontSize: 50, position: 'absolute', top: 30}]}>{props.route.params.journal.name}'s JOURNY</Text>
                     {
-                        recentJourny ? <Text>displaying recent journy</Text> :
-                            props.navigation.navigate("WritingPromptScreen", { journal: props.route.params.journal, promptObject: prompts.mood, entryDate: entryDate, entries: [], journyPath: journyPath })
+                        addRecentEntry()
                     }
-                    <Tappable onPress={() => props.navigation.navigate("WritingPromptScreen", { journal: props.route.params.journal, promptObject: prompts.mood, entries: [], journyPath: journyPath })}
-                        text="New Entry"
-                        type="normal" />
+                    <Tappable onPress={() => props.navigation.navigate("PromptTypeScreen", { user: props.route.params.user, journal: props.route.params.journal, journyPath: journyPath })}
+                        text="NEW JOURNY"
+                        type="normal"
+                        backgroundColor="white"
+                        borderColor="black" />
                 </ImageBackground>
             </View>
         </TouchableWithoutFeedback>
     );
 }
 
-const styles = StyleSheet.create({
+const homeStyles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',

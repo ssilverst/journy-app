@@ -24,7 +24,7 @@ const bookStyle = StyleSheet.create({
     title: {
         fontFamily: 'CreamShoes',
         color: 'black',
-        fontSize: 20,
+        fontSize: 30,
         textAlign: 'center',
     },
     image: {

@@ -19,7 +19,7 @@ const Tappable = (props) => {
     }
     return (
         <TouchableOpacity onPress={props.onPress} style={TOStyles[props.type]}>
-            <Text style={textStyles[props.type]}>
+            <Text style={[textStyles[props.type], props.fontSize ? {fontSize: props.fontSize} : {fontSize: 40}]}>
                 {props.text}
             </Text>
         </TouchableOpacity>

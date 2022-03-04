@@ -6,7 +6,6 @@ import { ref, set, onValue } from "firebase/database";
 export default function AddJournalPopup(props) {
     const [journalCode, setJournalCode] = useState(null)
     const journals = props.user.journals
-    console.log(journals)
     return (
         <View style={styles.container}>
             <SafeAreaView>
@@ -19,30 +18,48 @@ export default function AddJournalPopup(props) {
                 />
                 <TouchableOpacity style={{ width: 100, height: 30, left: 110, backgroundColor: 'white', alignItems: 'center', borderRadius: 10 }} onPress={() => {
                     onValue(ref(database, "journals/" + journalCode), (snapshot) => {
-                        if (journals.indexOf(journalCode) <= -1) {
-                            if (snapshot.exists()) {
-                                const journalRef = ref(database, 'journals/' + journalCode + '/users')
-                                if (journals) {
+                        // does the user have any journals
+                        if (journals) {
+                            // does the user already have this journal
+                            if (journals.indexOf(journalCode) <= -1) {
+                                if (snapshot.exists()) {
+                                    const journalRef = ref(database, 'journals/' + journalCode + '/users')
                                     journals.push(journalCode)
-                                }
-                                onValue(journalRef, (snapshot) => {
-                                    var journalUsers = snapshot.val()
-                                    if (journalUsers.indexOf(props.user.id) <= -1) {
-                                        journalUsers.push(props.user.id)
-                                        set(journalRef, journalUsers)
-                                    }
-                                })
-                                set(ref(database, "users/" + props.user.id + "/journals"), (journals ? journals : [journalCode]))
-                                props.updateJournals(journalCode)
-                                props.closePopup()
+                                    // we will update the users in this journal to include current user
+                                    onValue(journalRef, (snapshot) => {
+                                        var journalUsers = snapshot.val()
+                                        if (journalUsers.indexOf(props.user.id) <= -1) {
+                                            journalUsers.push(props.user.id)
+                                            set(journalRef, journalUsers)
+                                        }
+                                    })
+                                    // update the journals for the user
+                                    set(ref(database, "users/" + props.user.id + "/journals"), (journals))
+                                    props.updateJournals(journalCode)
+                                    props.closePopup()
 
+                                }
+                                else {
+                                    props.showAlert("Check the code you are using. This journal does not exist.")
+                                }
                             }
                             else {
-                                props.showAlert("Check the code you are using. This journal does not exist.")
+                                props.showAlert("You already have this journal")
                             }
                         }
+                        // aw this is your first journal, welcome baby
                         else {
-                            props.showAlert("You already have this journal")
+                            set(ref(database, "users/" + props.user.id + "/journals"), ([journalCode]))
+                            console.log(snapshot.val())
+                            const newShit = snapshot.val().users
+                            console.log(newShit)
+                            // newShit.push(props.user.id)
+
+                            // set(ref(database, 'journals/' + journalCode + '/users'), newShit)
+                            // onValue(ref(database, 'journals/' + journalCode + '/users'), (snapshot) => {
+                            //     console.log(newShit)
+                            // })
+                            // console.log('gonna set shit on fire')
                         }
                     });
                 }}><Text>Enter</Text></TouchableOpacity>

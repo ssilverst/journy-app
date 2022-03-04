@@ -58,7 +58,7 @@ export default function SignInScreen(props) {
                                     console.log(error)
                                 });
                         }}
-                        text="Sign In"
+                        text="SIGN IN"
                         type="underlined"
                     />
             </ImageBackground>

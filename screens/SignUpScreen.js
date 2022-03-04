@@ -69,7 +69,7 @@ export default function SignUpScreen(props) {
                                 Alert.alert(error.code.substring(5))
                                 console.log(error)
                             });
-                    }} text={"Finish Sign Up"} type={"underlined"}/>
+                    }} text={"SIGN UP"} type={"underlined"}/>
                 </ImageBackground>
             </View>
         </TouchableWithoutFeedback >

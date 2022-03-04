@@ -6,6 +6,7 @@ import { ref, onValue } from "firebase/database";
 import AddJournalPopup from './AddJournalPopup';
 import CreateJournalPopup from './CreateJournalPopup';
 import Book from '../components/book';
+import styles from '../Styles';
 
 export default function JournalSelectScreen(props) {
     const [showFacilitatorPopup, setShowFacilitatorPopup] = useState(false)
@@ -21,7 +22,6 @@ export default function JournalSelectScreen(props) {
     const addToJournal = (journalId) => {
         if (journalId) {
             onValue(ref(database, 'journals/' + journalId), (snapshot) => {
-                console.log(journalId)
                 setJournals(journals => [...journals, snapshot.val()])
             })
         }
@@ -34,9 +34,8 @@ export default function JournalSelectScreen(props) {
                         {Array.isArray(journals)
                             ? journals.map((journal, idx) => {
                                 return (
-                                    <TouchableOpacity key={idx} style={{ padding: 10 }}
-                                        >
-                                        <Book onPress={() => props.navigation.navigate("HomeScreenTeamMember", {journal: journal})} title={journal.name} />
+                                    <TouchableOpacity key={idx} style={{ padding: 10 }}>
+                                        <Book onPress={() => props.navigation.navigate("HomeScreenTeamMember", {journal: journal, user: props.route.params.user.id})} title={journal.name} />
                                     </TouchableOpacity>
                                 )
                             })
@@ -44,8 +43,8 @@ export default function JournalSelectScreen(props) {
                     </View>
                     {chooseRole &&
                         <View style={{ position: 'absolute', borderRadius: 20, bottom: 80, display: 'flex', backgroundColor: '#fffdd0' }}>
-                            <TouchableOpacity style={{ padding: 10, borderBottomWidth: 2 }} onPress={() => { setShowTeamPopup(true); setChooseRole(false) }}><Text>Join as Team Member</Text></TouchableOpacity>
-                            <TouchableOpacity style={{ padding: 10 }} onPress={() => { setShowFacilitatorPopup(true); setChooseRole(false) }}><Text>Create as Facilitator</Text></TouchableOpacity>
+                            <TouchableOpacity style={{ padding: 10, borderBottomWidth: 2 }} onPress={() => { setShowTeamPopup(true); setChooseRole(false) }} ><Text style={[styles.text, {fontSize: 30}]}>Join as Team Member</Text></TouchableOpacity>
+                            <TouchableOpacity style={{ padding: 10 }} onPress={() => { setShowFacilitatorPopup(true); setChooseRole(false) }}><Text style={[styles.text, {fontSize: 30}]}>Create as Facilitator</Text></TouchableOpacity>
                         </View>
                     }
                     {showTeamPopup && <AddJournalPopup style={{ position: 'absolute', top: 40 }} showAlert={(alertText) => Alert.alert(alertText)} updateJournals={(journalId) => addToJournal(journalId)} user={props.route.params.user} closePopup={() => setShowTeamPopup(false)} />}
@@ -55,33 +54,14 @@ export default function JournalSelectScreen(props) {
 
                     <TouchableOpacity
                         onPress={() => setChooseRole(!chooseRole)}
-                        style={styles.addButton}><Text style={{ fontSize: 40 }}>+</Text></TouchableOpacity>
+                        style={journalStyles.addButton}><Text style={{ fontSize: 40 }}>+</Text></TouchableOpacity>
                 </ImageBackground>
             </View >
         </TouchableWithoutFeedback >
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    input: {
-        height: 40,
-        margin: 12,
-        borderWidth: 1,
-        padding: 10,
-        width: 300
-    },
-    image: {
-        flex: 1,
-        width: '100%',
-        height: '100%',
-        justifyContent: "center",
-        alignItems: "center"
-    },
+const journalStyles = StyleSheet.create({
     addButton:
     {
         backgroundColor: 'white',

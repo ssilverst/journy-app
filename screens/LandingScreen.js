@@ -17,15 +17,15 @@ export default function LandingScreen(props) {
                 <View style={styles.buttons}>
                     <Tappable 
                         onPress={() => props.navigation.navigate("SignInScreen")}
-                        text="Sign In"
+                        text="SIGN IN"
                         type="normal"
-                        borderColor="red"
-                        backgroundColor="purple"
+                        borderColor="white"
+                        backgroundColor="#ccc"
                     />
                 </View>
                 <Tappable
                     onPress={() => props.navigation.navigate("SignUpScreen")}
-                    text="Create Account"
+                    text="CREATE ACCOUNT"
                     type="underlined"
                 />
             </ImageBackground>
