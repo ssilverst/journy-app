@@ -2,7 +2,7 @@ import { StyleSheet, Keyboard, Text, Alert, View, TouchableOpacity, ImageBackgro
 import { useState, useEffect } from 'react';
 import mountain from '../assets/backgrounds/littleMountains.png';
 import database from "../config/firebase";
-import { ref, onValue } from "firebase/database";
+import { set, ref, onValue } from "firebase/database";
 import pink from '../assets/backgrounds/pinkBackground.png'
 import purple from '../assets/backgrounds/purpleBlueBackground.png'
 import orange from '../assets/backgrounds/orangeBackground.png'
@@ -11,42 +11,57 @@ import Tappable from '../components/tappable';
 
 export default function HomeScreenTeamMember(props) {
     const prompts = {
-        'mood': 
+        'mood':
         {
             'image': pink,
-            'prompt': 'How did you feel after today’s meeting?'
+            'prompt': 'How did you feel after today’s meeting?',
+            'type': 'mood'
         },
         'communication':
         {
             'image': purple,
-            'prompt': 'What can be improved about the team’s communication?'
+            'prompt': 'What can be improved about the team’s communication?',
+            'type': 'communication'
         },
         'productivity':
         {
             'image': orange,
-            'prompt': 'What were your biggest breakthroughs today?'
+            'prompt': 'What were your biggest breakthroughs today?',
+            'type': 'productivity'
         },
-        'free': 
+        'free':
         {
             'image': green,
-            'prompt': 'The space is yours!'
+            'prompt': 'The space is yours!',
+            'type': 'free'
         }
     }
     const [recentJourny, setRecentJourny] = useState(null)
+    const [entryDate, setEntryDate] = useState(null)
+    const [journyPath, setJournyPath] = useState(null)
     useEffect(() => {
-        if (props.route.params.journal.entry) {
-            setRecentJourny(props.route.params.journal.entry.recent)
-        }
+        const today = new Date()
+        setEntryDate(today.getDate() + "_" + today.getMonth() + "_" + today.getFullYear())
+        setJournyPath("journals/" + props.route.params.journal.id + "/journys/" + entryDate)
+        // onValue(ref(database, "journals/" + props.route.params.journal.id + "/journys/" + entryDate), (snapshot) => {
+        //     if (snapshot.exists()){
+
+        //     }
+        //     })
+
     }, []);
-    
+
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.container}>
                 <ImageBackground source={mountain} resizeMode="stretch" style={styles.image}>
-                    {recentJourny ? <Text>displaying recent journy</Text> : props.navigation.navigate("WritingPromptScreen", {journal: props.journal, promptObject: prompts.mood})}
-                    <TouchableOpacity><Tappable  onPress={() => props.navigation.navigate("WritingPromptScreen", {journal: props.journal, promptObject: prompts.mood})}
-                    text="New Entry"
-                    type="normal"/></TouchableOpacity>
+                    {
+                        recentJourny ? <Text>displaying recent journy</Text> :
+                            props.navigation.navigate("WritingPromptScreen", { journal: props.route.params.journal, promptObject: prompts.mood, entryDate: entryDate, entries: [], journyPath: journyPath })
+                    }
+                    <Tappable onPress={() => props.navigation.navigate("WritingPromptScreen", { journal: props.route.params.journal, promptObject: prompts.mood, entries: [], journyPath: journyPath })}
+                        text="New Entry"
+                        type="normal" />
                 </ImageBackground>
             </View>
         </TouchableWithoutFeedback>

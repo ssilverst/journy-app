@@ -33,7 +33,8 @@ export default function CreateJournalPopup(props) {
                     set(ref(database, 'journals/' + JOURNAL_ID), {
                         name: journalName,
                         users: [props.user.id],
-                        facilitator: props.user.id
+                        facilitator: props.user.id,
+                        id: JOURNAL_ID
                     });
                     set(userJournals, (journals ? journals : [JOURNAL_ID]))
                     props.updateJournals(JOURNAL_ID)

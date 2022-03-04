@@ -1,15 +1,22 @@
 import { StyleSheet, Keyboard, Text, Image, View, TouchableOpacity, ImageBackground, TouchableWithoutFeedback } from 'react-native';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
-import { v4 as uuidv4 } from "uuid";
+import database from "../config/firebase";
+import { set, ref } from "firebase/database";
 import styles from '../Styles';
 import * as ImagePicker from 'expo-image-picker';
+import Tappable from '../components/tappable';
+import { v4 as uuidv4 } from "uuid";
+
 
 export default function WritingPromptScreen(props) {
+    const ENTRY_ID = uuidv4();
+
     const [writingResponse, setWritingResponse] = useState('')
     const [images, setImages] = useState([])
     const [writing, setWriting] = useState(true)
+    const [topic, setTopic] = useState(null)
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -28,6 +35,22 @@ export default function WritingPromptScreen(props) {
     const removeImage = (imageToRemove) => {
         setImages(images.filter(image => imageToRemove != image));
     }
+    const craftingEntry = () => {
+        if (!writingResponse && images.length == 0 && !audio) {
+            Alert.alert("Write something, silly.")
+        }
+        else {
+            const entry =
+            {
+                'writing-response': writing ? writingResponse : null,
+                'images': images,
+                'audio': null
+            }
+            // props.route.params.entries ? props.route.params.entries.append(entry) : [entry]
+
+            set(ref(database, props.route.params.journyPath+ "/" + ENTRY_ID), entry)
+        }
+    }
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={[styles.container, { backgroundColor: '#ece8d6' }]}>
@@ -35,20 +58,34 @@ export default function WritingPromptScreen(props) {
                     <View style={{ backgroundColor: '#ece8d6', position: 'absolute', top: 20, padding: 10, borderRadius: 10 }}>
                         <Text style={{ textAlign: 'center', fontFamily: 'CreamShoes', fontSize: 25 }}>{props.route.params.promptObject.prompt}</Text>
                     </View>
-                    {writing ? <View style={writingStyles.inputBox}>
+                    {props.route.params.promptObject.type == 'free' &&
+                        <View>
+                            <TextInput
+                                style={writingStyles.input}
+                                onChangeText={setTopic}
+                                multiline={true}
+                                numberOfLines={2}
+                                value={topic}
+                                placeholder='Add a topic...'
+                            />
+                        </View>
+                    }
+                    {writing ? <View style={[writingStyles.inputBox, { position: 'absolute', top: 80 }]}>
                         <TextInput
                             style={writingStyles.input}
                             onChangeText={setWritingResponse}
+                            multiline={true}
+                            numberOfLines={4}
                             value={writingResponse}
                             placeholder='Write your response here...'
                         />
-                        <TouchableOpacity onPress={() => setWriting(false)} style={{ position: 'absolute', top: 0, right: 5 }}>
+                        <TouchableOpacity onPress={() => { setWriting(false); setWritingResponse('') }} style={{ position: 'absolute', top: 0, right: 5 }}>
                             <AntDesign name="closecircle" size={20} color="#CA8FB5" />
 
                         </TouchableOpacity>
                     </View> :
                         <TouchableOpacity style={writingStyles.box} onPress={() => setWriting(true)}>
-                            <FontAwesome style={{ backgroundColor: 'black',}} name="pencil-square" size={32} color="#ece8d6"  />
+                            <FontAwesome style={{ backgroundColor: 'black', }} name="pencil-square" size={32} color="#ece8d6" />
                         </TouchableOpacity>}
 
                     <ScrollView horizontal={true} style={writingStyles.scroll}>
@@ -67,9 +104,16 @@ export default function WritingPromptScreen(props) {
                             )
                         }) : null}
                     </ScrollView>
-                    <TouchableOpacity onPress={() => console.log('recording audio')} style={writingStyles.box}>
-                        <FontAwesome name="microphone" size={32} />
-                    </TouchableOpacity>
+                    <View style={{ width: '100%' }}>
+                        <TouchableOpacity onPress={() => console.log('recording audio')} style={[writingStyles.box, { position: 'absolute', left: '5%', top: 10 }]}>
+                            <FontAwesome name="microphone" size={32} />
+                        </TouchableOpacity>
+                    </View>
+                    <View>
+                        <Tappable onPress={() => craftingEntry()}
+                            text="Submit"
+                            type="normal" />
+                    </View>
                 </ImageBackground>
             </View>
         </TouchableWithoutFeedback>
@@ -89,7 +133,8 @@ const writingStyles = StyleSheet.create({
         padding: 10,
         width: 320,
         fontSize: 30,
-        fontFamily: 'CreamShoes'
+        fontFamily: 'CreamShoes',
+        textAlignVertical: 'top'
     },
     inputBox: {
         backgroundColor: 'rgba(255, 255, 255, 0.14)',

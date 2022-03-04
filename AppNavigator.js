@@ -11,6 +11,8 @@ import HomeScreenTeamMember from './screens/HomeScreenTeamMember';
 import WritingPromptScreen from './screens/WritingPromptScreen';
 import { useFonts } from '@use-expo/font';
 import AppLoading from 'expo-app-loading';
+import { LogBox } from 'react-native';
+
 const customFonts = {
   CreamShoes: require("./assets/fonts/CreamShoes.ttf"),
 };
@@ -20,6 +22,7 @@ import { ref, set, onValue } from "firebase/database";
 const Stack = createStackNavigator();
 
 export default function RootAppNavigator() {
+  LogBox.ignoreLogs(['Setting a timer']);
   // USE THIS TO CLEAR ANY DATA FROM THE DATABASE 
   // useEffect(() => {
   //   set(ref(database, 'journals/'), {})
