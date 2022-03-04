@@ -6,6 +6,7 @@ import { ref, set, onValue } from "firebase/database";
 export default function AddJournalPopup(props) {
     const [journalCode, setJournalCode] = useState(null)
     const journals = props.user.journals
+    console.log(journals)
     return (
         <View style={styles.container}>
             <SafeAreaView>

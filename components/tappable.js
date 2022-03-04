@@ -11,6 +11,12 @@ const Tappable = (props) => {
         "normal": buttonStyle.normalTO,
         "underlined": buttonStyle.underlinedTO
     }
+    if (props.borderColor) {
+        TOStyles[props.type] = {...TOStyles[props.type], borderColor: props.borderColor}
+    }
+    if (props.backgroundColor) {
+        TOStyles[props.type] = {...TOStyles[props.type], backgroundColor: props.backgroundColor}
+    }
     return (
         <TouchableOpacity onPress={props.onPress} style={TOStyles[props.type]}>
             <Text style={textStyles[props.type]}>
