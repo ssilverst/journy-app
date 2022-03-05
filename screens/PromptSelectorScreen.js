@@ -25,7 +25,19 @@ export default function PromptSelectorScreen(props) {
                             console.log(curPrompt);
                             console.log(curI);
                         }}
-                        text="Next Prompt"
+                        text="Next"
+                        type="normal"
+                        fontSize={30}
+                        borderColor="black"
+                    />
+                    <Tappable 
+                        onPress={() => {
+                            setCurI(curI - 1);
+                            setCurPrompt(questions[curI % questions.length]);
+                            console.log(curPrompt);
+                            console.log(curI);
+                        }}
+                        text="Previous"
                         type="normal"
                         fontSize={30}
                         borderColor="black"
