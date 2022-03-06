@@ -7,7 +7,7 @@ import database from "../config/firebase";
 import { ref, set, onValue } from "firebase/database";
 import RecentJourny from '../components/recent_journy';
 import styles from '../Styles';
-import { AntDesign } from '@expo/vector-icons'; 
+import { AntDesign } from '@expo/vector-icons';
 
 export default function HomeScreenTeamMember(props) {
     const [recentJourny, setRecentJourny] = useState(null)
@@ -22,7 +22,7 @@ export default function HomeScreenTeamMember(props) {
         // have we had a recent journy in this journal? if it is not the date of today let's override
         onValue(ref(database, "journals/" + props.route.params.journal.id + "/journys/recent-journy"), (snapshot) => {
             if (snapshot.exists()) {
-                onValue(ref(database, "journals/"+props.route.params.journal.id +"/journys/" + snapshot.val()), (snapshot) => {
+                onValue(ref(database, "journals/" + props.route.params.journal.id + "/journys/" + snapshot.val()), (snapshot) => {
                     if (snapshot.exists()) {
                         setRecentJourny(snapshot.val())
                     }
@@ -47,7 +47,9 @@ export default function HomeScreenTeamMember(props) {
             }
             else {
                 return (
-                    <TouchableOpacity onPress={() => props.navigation.navigate("JournyScreen", { team: team, user: props.route.params.user, journal: props.route.params.journal, journy: recentJourny, entryDate: recentJourny["entry-date"] })}><RecentJourny style={{ maxHeight: 40 }} journy={recentJourny} user={props.route.params.user} entryDate={recentJourny["entry-date"]} /></TouchableOpacity>
+                    <TouchableOpacity onPress={() => props.navigation.navigate("JournyScreen", { team: team, user: props.route.params.user, journal: props.route.params.journal, journy: recentJourny, entryDate: recentJourny["entry-date"] })}>
+                        <RecentJourny style={{ maxHeight: 40 }} journy={recentJourny} user={props.route.params.user} entryDate={recentJourny["entry-date"]} />
+                    </TouchableOpacity>
                 )
             }
         }
@@ -69,7 +71,8 @@ export default function HomeScreenTeamMember(props) {
                             backgroundColor="white"
                             borderColor="black" />
                     </View>
-                    <TouchableOpacity onPress={() => props.navigation.navigate("CalendarScreen", {journal: props.route.params.journal})}><AntDesign name="calendar" size={50} color="black" /></TouchableOpacity>
+                    
+                    <TouchableOpacity onPress={() => props.navigation.navigate("CalendarScreen", { journal: props.route.params.journal })}><AntDesign name="calendar" size={50} color="black" /></TouchableOpacity>
                 </ImageBackground>
             </View>
         </TouchableWithoutFeedback>

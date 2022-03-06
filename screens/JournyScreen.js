@@ -8,6 +8,7 @@ import orange from '../assets/backgrounds/orangeBackground.png'
 import green from '../assets/backgrounds/greenBackground.png'
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useState, useEffect } from "react";
+import Tappable from "../components/tappable";
 
 export default function JournyScreen(props) {
     const keys = Object.keys(props.route.params.journy)
@@ -22,16 +23,14 @@ export default function JournyScreen(props) {
         return entryDate.replace(/_/g, "/")
     }
     useEffect(() => {
-        if (props.route.params.journy["rating"])
-        {
-            if (props.route.params.journy["rating"]["communication"] && props.route.params.journy["rating"]["productivity"] && props.route.params.journy["rating"]["teamwork"])
-            { setCheckRatings(true)}
+        if (props.route.params.journy["rating"]) {
+            if (props.route.params.journy["rating"]["communication"] && props.route.params.journy["rating"]["productivity"] && props.route.params.journy["rating"]["teamwork"]) { setCheckRatings(true) }
         }
     }, [props.route.params.journy]);
     const renderResponses = keys.map((entry, idx) => {
         if (entry != "rating" && entry != "entry-date") {
             return (
-                <TouchableOpacity onPress={() => props.navigation.navigate("EntryScreen", { team: props.route.params.team, entry: props.route.params.journy[entry], journal: props.route.params.journal})} key={idx}>
+                <TouchableOpacity onPress={() => props.navigation.navigate("EntryScreen", { team: props.route.params.team, entry: props.route.params.journy[entry], journal: props.route.params.journal })} key={idx}>
 
                     <ImageBackground source={backgroundDict[props.route.params.journy[entry]["type"]]} style={{
                         width: 150, borderRadius: 10, maxHeight: 200, overflow: 'hidden', marginBottom: 20
@@ -58,6 +57,14 @@ export default function JournyScreen(props) {
                         </View>
                     </ScrollView>
                 </View>
+                <Tappable
+                    onPress={() => props.navigation.navigate("FacilitatorPromptScreen", {
+                        entryDate: props.route.params.entryDate, 
+                        user: props.route.params.user, 
+                        journal: props.route.params.journal
+                    })}
+                    text="Give Feedback"
+                />
             </ImageBackground>
         </View>
 

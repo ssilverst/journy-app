@@ -15,6 +15,8 @@ import RatingsScreen from './screens/RatingsScreen';
 import JournyScreen from './screens/JournyScreen';
 import EntryScreen from './screens/EntryScreen';
 import CalendarScreen from './screens/CalendarScreen';
+import FacilitatorPromptScreen from './screens/FacilitatorPromptScreen';
+import AffirmationsScreen from './screens/AffirmationsScreen';
 import { useFonts } from '@use-expo/font';
 import AppLoading from 'expo-app-loading';
 import { LogBox } from 'react-native';
@@ -107,6 +109,16 @@ export default function RootAppNavigator() {
         <Stack.Screen
           name="CalendarScreen"
           component={CalendarScreen}
+          options={{ title: 'Journy' }}
+        />
+        <Stack.Screen
+          name="FacilitatorPromptScreen"
+          component={FacilitatorPromptScreen}
+          options={{ title: 'Journy' }}
+        />
+        <Stack.Screen
+          name="AffirmationsScreen"
+          component={AffirmationsScreen}
           options={{ title: 'Journy' }}
         />
       </Stack.Navigator>

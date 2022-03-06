@@ -40,7 +40,7 @@ export default function JournalSelectScreen(props) {
                         <View style={{backgroundColor: '#aecfb3', marginTop: 40, padding: 20, width: 300, borderRadius: 20}}>
                             <Text style={[styles.text, {textAlign: 'left', fontSize: 30}]}>Welcome to Journy! To add your first team journal, tap the button below :) You can join an existing journal or create one as a team leader/facilitator. {'\n'}{'\n'}Facilitators will have the ability to give feedback to the group based on their journal entries (we call them the journy). </Text>
                         </View>}
-                    </View>
+                    </View> 
                     {showTeamPopup && <AddJournalPopup style={{ position: 'absolute', top: 60 }} showAlert={(alertText) => Alert.alert(alertText)} updateJournals={(journalId) => addToJournal(journalId)} user={props.route.params.user} closePopup={() => setShowTeamPopup(false)} />}
 
                     {showFacilitatorPopup && <CreateJournalPopup style={{ position: 'absolute', top: 60 }} updateJournals={(journalId) => addToJournal(journalId)} navigation={props.navigation} user={props.route.params.user} closePopup={() => setShowFacilitatorPopup(false)} />}
