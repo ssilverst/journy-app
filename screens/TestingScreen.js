@@ -4,6 +4,7 @@ import styles from '../Styles';
 import home from '../assets/homescreen.png';
 import EntryItem from "../components/entry";
 import Book from '../components/book';
+import MenuBar from '../components/menubar';
 
 export default function TestingScreen() {
 
@@ -16,6 +17,7 @@ export default function TestingScreen() {
             <Book
                 title="Journal Name"
             />
+            <MenuBar />
         </View>
     );
 }
