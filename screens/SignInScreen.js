@@ -4,7 +4,6 @@ import home from '../assets/homescreen.png';
 import database from "../config/firebase";
 import { ref, set, onValue } from "firebase/database";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useLinkProps } from '@react-navigation/native';
 import styles from "../Styles";
 import Tappable from '../components/tappable';
 
@@ -40,7 +39,6 @@ export default function SignInScreen(props) {
                                 .then((userCredential) => {
                                     // Signed in 
                                     const user = userCredential.user;
-                                    // const userRef = ref(db, 'posts/' + postId + '/starCount');
                                     onValue(ref(database, "users/" + user.uid), (snapshot) => {
                                         if (snapshot.exists()) {
                                             const userData = snapshot.val();

@@ -19,8 +19,8 @@ export default function LandingScreen(props) {
                         onPress={() => props.navigation.navigate("SignInScreen")}
                         text="SIGN IN"
                         type="normal"
-                        borderColor="white"
-                        backgroundColor="#ccc"
+                        borderColor="black"
+                        backgroundColor="white"
                     />
                 </View>
                 <Tappable
