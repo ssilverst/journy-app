@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground } from
 import home from '../assets/homescreen.png'
 import AppLoading from 'expo-app-loading';
 import styles from '../Styles';
+import {Colors} from '../Colors';
 import Tappable from '../components/tappable';
 
 export default function LandingScreen(props) {
@@ -19,8 +20,8 @@ export default function LandingScreen(props) {
                         onPress={() => props.navigation.navigate("SignInScreen")}
                         text="SIGN IN"
                         type="normal"
-                        borderColor="white"
-                        backgroundColor="#ccc"
+                        //borderColor="white"
+                        //backgroundColor={Colors.buttonDefaultBackground}
                     />
                 </View>
                 <Tappable

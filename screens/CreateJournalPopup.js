@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TextInput, View, SafeAreaView, TouchableOpacity } from 'react-native';
 import * as Clipboard from 'expo-clipboard'
-
+import {Colors} from "../Colors";
 import { useState } from 'react';
 import { v4 as uuidv4 } from "uuid";
 import database from "../config/firebase";
@@ -53,8 +53,8 @@ export default function CreateJournalPopup(props) {
 
 const styles = StyleSheet.create({
     container: {
-        borderColor: 'tan',
-        backgroundColor: 'tan',
+        borderColor: Colors.popUpBorder,
+        backgroundColor: Colors.popUpBackground,
         borderWidth: 6,
         borderRadius: 20,
         height: 200,

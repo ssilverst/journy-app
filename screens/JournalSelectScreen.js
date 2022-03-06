@@ -7,6 +7,7 @@ import AddJournalPopup from './AddJournalPopup';
 import CreateJournalPopup from './CreateJournalPopup';
 import Book from '../components/book';
 import styles from '../Styles';
+import {Colors} from "../Colors";
 
 export default function JournalSelectScreen(props) {
     const [showFacilitatorPopup, setShowFacilitatorPopup] = useState(false)
@@ -42,7 +43,7 @@ export default function JournalSelectScreen(props) {
                             : null}
                     </View>
                     {chooseRole &&
-                        <View style={{ position: 'absolute', borderRadius: 20, bottom: 80, display: 'flex', backgroundColor: '#fffdd0' }}>
+                        <View style={{ position: 'absolute', borderRadius: 20, bottom: 80, display: 'flex', backgroundColor: Colors.joinColor }}>
                             <TouchableOpacity style={{ padding: 10, borderBottomWidth: 2 }} onPress={() => { setShowTeamPopup(true); setChooseRole(false) }} ><Text style={[styles.text, {fontSize: 30}]}>Join as Team Member</Text></TouchableOpacity>
                             <TouchableOpacity style={{ padding: 10 }} onPress={() => { setShowFacilitatorPopup(true); setChooseRole(false) }}><Text style={[styles.text, {fontSize: 30}]}>Create as Facilitator</Text></TouchableOpacity>
                         </View>

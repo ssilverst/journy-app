@@ -1,7 +1,7 @@
-import {View, Text, ImageBackground} from 'react-native';
-import {useState} from 'react';
+import { View, Text, ImageBackground, TouchableOpacity } from 'react-native';
+import { useState } from 'react';
 import Tappable from '../components/tappable';
-
+import { AntDesign } from '@expo/vector-icons';
 import exStyles from "../Styles"
 import prompts from "../components/prompts"
 
@@ -16,43 +16,44 @@ export default function PromptSelectorScreen(props) {
     return (
         <View style={exStyles.container}>
             <ImageBackground source={background} resizeMode="stretch" style={exStyles.image}>
-                <Text style={[exStyles.text, {fontSize: 30}]}> "{curPrompt}" </Text>
-                <View style={{display: 'flex', width: '100%', flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                    <Tappable 
+                
+                <View style={{ alignItems: "center", display: 'flex', height: '25%', width: '90%', flexDirection: 'row', justifyContent: 'space-evenly', marginVertical: '5%' }}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            if (curI == 0) {
+                                setCurI(questions.length - 1);
+                            } else {
+                                setCurI(curI - 1);
+                            }
+                            setCurPrompt(questions[curI % questions.length]);
+                            console.log(curPrompt);
+                            console.log(curI);
+                        }}>
+                        <AntDesign name="leftcircleo" size={35} color="black" />
+                    </TouchableOpacity>
+                    <Text style={[exStyles.text, { fontSize: 30, width:"70%" }]}> "{curPrompt}" </Text>
+                    <TouchableOpacity
                         onPress={() => {
                             setCurI(curI + 1);
                             setCurPrompt(questions[curI % questions.length]);
                             console.log(curPrompt);
                             console.log(curI);
-                        }}
-                        text="Next"
-                        type="normal"
-                        fontSize={30}
-                        borderColor="black"
-                    />
-                    <Tappable 
+                        }}>
+                        <AntDesign name="rightcircleo" size={35} color="black" />
+                    </TouchableOpacity>
+                </View>
+                <View>
+                    <Tappable
                         onPress={() => {
-                            setCurI(curI - 1);
-                            setCurPrompt(questions[curI % questions.length]);
-                            console.log(curPrompt);
-                            console.log(curI);
-                        }}
-                        text="Previous"
-                        type="normal"
-                        fontSize={30}
-                        borderColor="black"
-                    />
-                    <Tappable 
-                        onPress = {() => {
                             const promptObject = {
                                 "image": background,
                                 "prompt": curPrompt,
                                 "promptType": props.route.params.prompts
                             }
-                            props.navigation.navigate("WritingPromptScreen", {journal: props.route.params.journal, entryDate: props.route.params.entryDate, user: props.route.params.user, journyPath: props.route.params.journyPath, promptObject: promptObject})
+                            props.navigation.navigate("WritingPromptScreen", { journal: props.route.params.journal, entryDate: props.route.params.entryDate, user: props.route.params.user, journyPath: props.route.params.journyPath, promptObject: promptObject })
                         }}
-                        text= "Use Prompt"
-                        type= "normal"
+                        text="Use Prompt"
+                        type="normal"
                         fontSize={30}
                         borderColor="black"
                     />
