@@ -2,6 +2,7 @@ import { StyleSheet, Text, TextInput, View, SafeAreaView, TouchableOpacity } fro
 import { useState } from 'react';
 import database from "../config/firebase";
 import { ref, set, onValue } from "firebase/database";
+import {Colors} from "../Colors";
 
 export default function AddJournalPopup(props) {
     const [journalCode, setJournalCode] = useState(null)
@@ -70,8 +71,8 @@ export default function AddJournalPopup(props) {
 
 const styles = StyleSheet.create({
     container: {
-        borderColor: 'tan',
-        backgroundColor: 'tan',
+        borderColor: Colors.popUpBorder,
+        backgroundColor: Colors.popUpBackground,
         borderWidth: 6,
         borderRadius: 20,
         height: 200,

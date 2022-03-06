@@ -36,7 +36,7 @@ const buttonStyle = StyleSheet.create({
         paddingVertical: 6,
         paddingHorizontal: 12,
         borderWidth: 5,
-        borderColor:'pink',
+        borderColor:'black',
         marginVertical: 10
     },
     underlinedText: {
