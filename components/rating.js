@@ -12,6 +12,9 @@ const Rating = (props) => {
         'teamwork': "Overall Teamwork"
     }
     const setRating = (rating) => {
+        console.log('all hell')
+        console.log(rating)
+        console.log(props.journyPath + "/rating/" + props.type + "/" + props.user)
         set(ref(database, props.journyPath + "/rating/" + props.type + "/" + props.user), rating)
         setSelected(rating)
         props.updateRating(rating)
@@ -20,7 +23,6 @@ const Rating = (props) => {
         <View >
             <Text style={styles.text}>{typeDict[props.type]}</Text>
             <View style={{ display: 'flex', flexDirection: 'row' }}>
-
                 <TouchableOpacity onPress={() => setRating(0.1)}><Image resizeMode="cover" 
                     style={[{ width: 50, margin: 8, height: 50 }, (selected && selected == 0.1) ? {opacity: 1} : {opacity:0.3}]} source={require('../assets/faces/face0.png')} />
                 </TouchableOpacity>
@@ -42,30 +44,3 @@ const Rating = (props) => {
 }
 
 export default Rating;
-
-const buttonStyle = StyleSheet.create({
-    normalTO: {
-        //elevation: 8,
-        backgroundColor: "white",
-        borderRadius: 10,
-        paddingVertical: 6,
-        paddingHorizontal: 12,
-        borderWidth: 5,
-        borderColor: 'pink',
-        marginVertical: 10
-    },
-    underlinedText: {
-        fontFamily: 'CreamShoes',
-        color: 'black',
-        fontSize: 30,
-        textAlign: 'center',
-        textDecorationLine: "underline",
-    },
-    underlinedTO: {
-        borderRadius: 10,
-        paddingVertical: 6,
-        paddingHorizontal: 12,
-        borderColor: 'pink',
-        marginVertical: 10
-    }
-})

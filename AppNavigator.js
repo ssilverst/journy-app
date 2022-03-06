@@ -12,7 +12,9 @@ import WritingPromptScreen from './screens/WritingPromptScreen';
 import PromptSelectorScreen from './screens/PromptSelectorScreen';
 import PromptTypeScreen from './screens/PromptTypeScreen';
 import RatingsScreen from './screens/RatingsScreen';
-
+import JournyScreen from './screens/JournyScreen';
+import EntryScreen from './screens/EntryScreen';
+import CalendarScreen from './screens/CalendarScreen';
 import { useFonts } from '@use-expo/font';
 import AppLoading from 'expo-app-loading';
 import { LogBox } from 'react-native';
@@ -90,6 +92,21 @@ export default function RootAppNavigator() {
         <Stack.Screen
           name="RatingsScreen"
           component={RatingsScreen}
+          options={{ title: 'Journy' }}
+        />
+        <Stack.Screen
+          name="JournyScreen"
+          component={JournyScreen}
+          options={{ title: 'Journy' }}
+        />
+        <Stack.Screen
+          name="EntryScreen"
+          component={EntryScreen}
+          options={{ title: 'Journy' }}
+        />
+        <Stack.Screen
+          name="CalendarScreen"
+          component={CalendarScreen}
           options={{ title: 'Journy' }}
         />
       </Stack.Navigator>

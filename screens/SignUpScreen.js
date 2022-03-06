@@ -55,7 +55,7 @@ export default function SignUpScreen(props) {
                                 // Signed in 
                                 const user = userCredential.user;
                                 user.displayName = nameText
-                                console.log(user)
+
                                 set(ref(database, 'users/' + user.uid), {
                                     name: nameText,
                                     id: user.uid,

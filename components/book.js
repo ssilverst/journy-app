@@ -18,19 +18,23 @@ export default Book;
 
 const bookStyle = StyleSheet.create({
     book: {
-        justifyContent: "center",
         borderRadius: 10,
+        
+
     },
     title: {
         fontFamily: 'CreamShoes',
         color: 'black',
         fontSize: 30,
         textAlign: 'center',
+        width: 80,
     },
     image: {
         width: 131,
         height: 171,
-        justifyContent: "center",
+        alignItems: "center",
+        display: 'flex',
+        justifyContent: 'center'
     }
 
 })
