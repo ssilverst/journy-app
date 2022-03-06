@@ -7,13 +7,10 @@ import AddJournalPopup from '../components/AddJournalPopup';
 import CreateJournalPopup from '../components/CreateJournalPopup';
 import Book from '../components/book';
 import styles from '../Styles';
-<<<<<<< HEAD
 import {Colors} from "../Colors";
 
-=======
 import { Ionicons } from '@expo/vector-icons';
 import useWindowDimensions from 'react-native/Libraries/Utilities/useWindowDimensions';
->>>>>>> 419b9132924480a7673412b174aef57b48d8facc
 export default function JournalSelectScreen(props) {
     const [showFacilitatorPopup, setShowFacilitatorPopup] = useState(false)
     const [showTeamPopup, setShowTeamPopup] = useState(false)
@@ -49,15 +46,9 @@ export default function JournalSelectScreen(props) {
                     {showFacilitatorPopup && <CreateJournalPopup style={{ position: 'absolute', top: 60 }} updateJournals={(journalId) => addToJournal(journalId)} navigation={props.navigation} user={props.route.params.user} closePopup={() => setShowFacilitatorPopup(false)} />}
 
                     {chooseRole &&
-<<<<<<< HEAD
                         <View style={{ position: 'absolute', borderRadius: 20, bottom: 80, display: 'flex', backgroundColor: Colors.joinColor }}>
                             <TouchableOpacity style={{ padding: 10, borderBottomWidth: 2 }} onPress={() => { setShowTeamPopup(true); setChooseRole(false) }} ><Text style={[styles.text, {fontSize: 30}]}>Join as Team Member</Text></TouchableOpacity>
                             <TouchableOpacity style={{ padding: 10 }} onPress={() => { setShowFacilitatorPopup(true); setChooseRole(false) }}><Text style={[styles.text, {fontSize: 30}]}>Create as Facilitator</Text></TouchableOpacity>
-=======
-                        <View style={{ position: 'absolute', borderRadius: 20, bottom: 140, display: 'flex', borderWidth: 2, backgroundColor: '#fcf2d9' }}>
-                            <TouchableOpacity style={{ padding: 20, borderBottomWidth: 2 }} onPress={() => { setShowTeamPopup(true); setChooseRole(false) }} ><Text style={[styles.text, { fontSize: 30 }]}>Join as Team Member</Text></TouchableOpacity>
-                            <TouchableOpacity style={{ padding: 20 }} onPress={() => { setShowFacilitatorPopup(true); setChooseRole(false) }}><Text style={[styles.text, { fontSize: 30 }]}>Create as Facilitator</Text></TouchableOpacity>
->>>>>>> 419b9132924480a7673412b174aef57b48d8facc
                         </View>
                     }
 
