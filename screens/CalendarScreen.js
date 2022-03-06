@@ -2,12 +2,15 @@ import styles from "../Styles";
 import { useState, useEffect } from "react";
 import { View, Text, ImageBackground, ScrollView, Image } from 'react-native';
 import gradient from '../assets/backgrounds/littleBarGradients.png';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { onValue, ref } from "@firebase/database";
 import database from "../config/firebase";
+import Calendar from "../components/calendar";
+import Stats from "../components/stats"
 export default function CalendarScreen(props) {
     const [team, setTeam] = useState(null)
+    const [selected, setSelected] = useState('calendar')
     const months = {
         "2022": {
             "1": [
@@ -119,42 +122,7 @@ export default function CalendarScreen(props) {
     const [days, setDays] = useState([])
     const [idx, setIdx] = useState(0)
 
-    const findFace = (average) => {
-        if (average < 0.3) return require("../assets/faces/face0.png")
-        if (average < 0.5) return require("../assets/faces/face1.png")
-        if (average < 0.7) return require("../assets/faces/face2.png")
-        if (average < 0.9) return require("../assets/faces/face3.png")
-        else return require("../assets/faces/face4.png")
-    }
 
-    const checkIfFace = (day, idx) => {
-        const date = monthsArrDict[idx].split(",")
-        const datePath = `${monthsToNums[date[0].trim()]}_${day}_${date[1].trim()}`
-        var faceValue = null
-        onValue(ref(database, "journals/" + props.route.params.journal.id + "/journys/" + datePath), (snapshot) => {
-            faceValue = snapshot.val()
-        })
-        if (faceValue) {
-            var teamRatings = Object.values(faceValue["rating"]["teamwork"])
-            var total = 0
-            var avg = 0
-            for (var i = 0; i < teamRatings.length; i++) {
-                total += teamRatings[i];
-            }
-            avg = (total / teamRatings.length)
-        }
-        return (
-            <View>
-                {faceValue ? 
-                <TouchableOpacity key={idx} onPress={() => props.navigation.navigate("JournyScreen", {team: team, journy: faceValue, journal: props.route.params.journal, user: props.route.params.user, entryDate: faceValue["entry-date"]})}>
-                    <Image source={findFace(avg)} style={{ width: 30, height: 30, borderRadius: 15, borderWidth: 2 }} />
-                </TouchableOpacity>    
-                     : <View style={[{ width: 30, height: 30, borderRadius: 15, borderWidth: 2}, day == ' ' ? 
-                {backgroundColor: 'transparent', borderWidth: 0} : {backgroundColor: '#ebe8d6'} ]}></View>}
-                <Text style={[styles.text, { fontSize: 20 }]}>{day}</Text>
-            </View>
-        )
-    }
     useEffect(() => {
         const today = new Date
         setDays(months[`${today.getFullYear()}`][`${today.getMonth() + 1}`])
@@ -171,24 +139,16 @@ export default function CalendarScreen(props) {
         const date = monthsArrDict[idx].split(",")
         setDays(months[date[1].trim()][monthsToNums[date[0]]])
     }, [idx]);
-    const renderMonth = days.map((week) => {
-        return (
-            <View style={{ flexDirection: 'row', display: 'flex', }}>
-                {week.map((day, idx) => {
-                    return (
-                        <View key={idx} style={{ margin: 4, marginBottom: 6 }}>
-                            {checkIfFace(day, idx)}
-                        </View>
-                    )
-                })}
-            </View>
-        )
-    })
+
     return (
         <View style={[styles.container]}>
             <ImageBackground source={gradient} resizeMode="stretch" style={[styles.image,]}>
-            <Text style={[styles.text, {position: 'absolute', top: 30, fontSize: 35}]}>Check your team's progress</Text>
-                <View style={{ opacity: 0.7, backgroundColor: "#a7c4be", borderRadius: 20, overflow: 'hidden', position: 'absolute', top: 100 }}>
+                <Text style={[styles.text, { position: 'absolute', top: 30, fontSize: 35 }]}>Check your team's progress</Text>
+                <View style={{ position: 'absolute', top: 100, right: 40, display: 'flex', flexDirection: 'row' }}>
+                    <TouchableOpacity onPress={() => setSelected('stats')}><Ionicons name="stats-chart" size={30} color={selected == "stats" ? "black" : "#a7c4b3"} /></TouchableOpacity>
+                    <TouchableOpacity onPress={() => setSelected('calendar')}><AntDesign name="calendar" size={30} color={selected == "calendar" ? "black" : "#a7c4b3"} /></TouchableOpacity>
+                </View>
+                <View style={{ opacity: 0.7, backgroundColor: "#a7c4be", borderRadius: 20, overflow: 'hidden', position: 'absolute', top: 140 }}>
                     <View style={{ padding: 20, backgroundColor: "#bcd6e9", display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
                         <TouchableOpacity onPress={() => idx > 0 && setIdx(idx - 1)}>
                             <Ionicons name="arrow-back-circle" size={30} color="black" />
@@ -198,9 +158,7 @@ export default function CalendarScreen(props) {
                             <Ionicons name="arrow-forward-circle" size={30} color="black" />
                         </TouchableOpacity>
                     </View>
-                    <View style={{ padding: 20,  }}>
-                        {renderMonth}
-                    </View>
+                    {selected === 'calendar' ? <Calendar navigation={props.navigation} idx={idx} team={team} monthsArrDict={monthsArrDict} monthsToNums={monthsToNums} days={days} journal={props.route.params.journal} user={props.route.params.user} /> : <Stats navigation={props.navigation} idx={idx} team={team} monthsArrDict={monthsArrDict} monthsToNums={monthsToNums} days={days} journal={props.route.params.journal} user={props.route.params.user} />}
                 </View>
             </ImageBackground>
         </View>

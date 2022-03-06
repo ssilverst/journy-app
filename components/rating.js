@@ -12,9 +12,6 @@ const Rating = (props) => {
         'teamwork': "Overall Teamwork"
     }
     const setRating = (rating) => {
-        console.log('all hell')
-        console.log(rating)
-        console.log(props.journyPath + "/rating/" + props.type + "/" + props.user)
         set(ref(database, props.journyPath + "/rating/" + props.type + "/" + props.user), rating)
         setSelected(rating)
         props.updateRating(rating)

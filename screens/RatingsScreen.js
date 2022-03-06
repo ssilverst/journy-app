@@ -13,7 +13,6 @@ export default function RatingsScreen(props) {
     const [prodSelected, setProdSelected] = useState(null)
     const [teamSelected, setTeamSelected] = useState(null)
     const closeJournal = () => {
-        console.log('WHY ARE U HERE')
         if (commSelected && prodSelected && teamSelected){
             props.navigation.navigate("HomeScreenTeamMember", {user: props.route.params.user, journal: props.route.params.journal})
         }

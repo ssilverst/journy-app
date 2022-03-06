@@ -15,7 +15,6 @@ export default function HomeScreenTeamMember(props) {
     const [journyPath, setJournyPath] = useState(null)
     const [team, setTeam] = useState(null)
     useEffect(() => {
-        console.log("i am here lsjdfljs")
         const today = new Date()
         const month = new Date().getMonth() + 1
         const date = month + "_" + today.getDate() + "_" + today.getFullYear()

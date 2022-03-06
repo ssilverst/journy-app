@@ -3,6 +3,7 @@ import { View, Text, Image } from 'react-native';
 import { useState, useEffect } from "react";
 const TeamRating = (props)  => {
     const [avgs, setAvgs] = useState(null)
+    const [you, setYou] = useState(null)
     const findFace = (average) => {
         if (average < 0.3) return require("../assets/faces/face0.png")
         if (average < 0.5) return require("../assets/faces/face1.png")
@@ -12,8 +13,9 @@ const TeamRating = (props)  => {
     }
 
     useEffect(() => {
+        console.log(`IM PRINTING THIS: `)
+        console.log(props.journy)
         if (props.journy["rating"]) {
-            console.log(props.journy["rating"])
 
             const averages = []
             var commRatings = Object.values(props.journy["rating"]["communication"])
@@ -40,8 +42,13 @@ const TeamRating = (props)  => {
             avg = (total / teamRatings.length)
             averages["teamwork"] = findFace(avg)
             setAvgs(averages)
+            setYou({
+                "communication": findFace(props.journy["rating"]["communication"][props.user]),
+                "productivity": findFace(props.journy["rating"]["productivity"][props.user]),
+                "teamwork": findFace(props.journy["rating"]["teamwork"][props.user])
+            })
         }
-    }, [props.journy["rating"]]);
+    }, [props.journy]);
 
     return (
         <View>
@@ -67,11 +74,11 @@ const TeamRating = (props)  => {
                             <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                                 <Text style={[styles.text, { height: 30, margin: 8, marginBottom: -10, fontSize: 20, textAlign: 'center' }]}>YOU</Text>
                                 <Image resizeMode="cover"
-                                    style={{ width: 30, margin: 8, marginRight: 20, height: 30, }} source={findFace(props.journy["rating"]["communication"][props.user])} />
+                                    style={{ width: 30, margin: 8, marginRight: 20, height: 30, }} source={you["communication"]} />
                                 <Image resizeMode="cover"
-                                    style={{ width: 30, margin: 8, marginRight: 20, height: 30 }} source={findFace(props.journy["rating"]["productivity"][props.user])} />
+                                    style={{ width: 30, margin: 8, marginRight: 20, height: 30 }} source={you["productivity"]} />
                                 <Image resizeMode="cover"
-                                    style={{ width: 30, margin: 8, marginRight: 20, height: 30 }} source={findFace(props.journy["rating"]["teamwork"][props.user])} />
+                                    style={{ width: 30, margin: 8, marginRight: 20, height: 30 }} source={you["teamwork"]} />
                             </View>
                         </View>
                     </View>

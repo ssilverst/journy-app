@@ -15,14 +15,28 @@ const RecentJourny = (props) => {
         "communication": purple,
         "free": green
     }
+    const [checkRatings, setCheckRatings] = useState(false)
     const formatDate = (entryDate) => {
         return entryDate.replace(/_/g, "/")
     }
+    useEffect(() => {
+        console.log(props.journy)
+        setCheckRatings(false)
+        if (props.journy["rating"])
+        {
+            console.log('okay so far so good')
+            if (props.journy["rating"]["communication"] && props.journy["rating"]["productivity"] && props.journy["rating"]["teamwork"])
+            { 
+                console.log('great!')
+                setCheckRatings(true)
+            }
+        }
+    }, [props.journy]);
     return (
         <View>
             <View style={{ borderRadius: 10, backgroundColor: '#fcf2d9', alignItems: 'center', shadowColor: 'black', padding: 10, borderWidth: 3, borderColor: 'black' }}>
                 <Text style={[styles.text, { fontSize: 35, marginBottom: 10, textDecorationLine: 'underline' }]}>Journy on {formatDate(props.entryDate)}</Text>
-                <TeamRating user={props.user} journy={props.journy} />
+                {checkRatings && <TeamRating user={props.user} journy={props.journy} />}
 
                 <View style={{ height: 1, width: '100%', backgroundColor: 'black' }}></View>
                 <View style={{ width: 300, marginTop: 20,  display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>

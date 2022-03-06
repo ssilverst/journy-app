@@ -105,8 +105,8 @@ export default function WritingPromptScreen(props) {
                         </TouchableOpacity>}
 
 
-                    <View style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
-                        <View style={{ padding: 10 }} >
+                    <View style={{ display: 'flex', flexDirection: 'row', width: '95%' }}>
+                        <View style={{ padding: 10, }} >
                             <TouchableOpacity style={writingStyles.box} onPress={() => pickImage()}>
                                 <AntDesign style={{ position: 'absolute' }} name="camera" size={32} color='#ece8d6' />
                                 <AntDesign style={{ position: 'absolute' }} name="camerao" size={32} color='black' />
@@ -129,7 +129,7 @@ export default function WritingPromptScreen(props) {
                     </View>
 
                     <View style={{ width: '100%' }}>
-                        <TouchableOpacity onPress={() => console.log('recording audio')} style={[writingStyles.box, { position: 'absolute', left: '5%', top: 30 }]}>
+                        <TouchableOpacity onPress={() => console.log('recording audio')} style={[writingStyles.box, { position: 'absolute', left: '6%', top: 30 }]}>
                             <FontAwesome name="microphone" size={32} />
                         </TouchableOpacity>
                     </View>

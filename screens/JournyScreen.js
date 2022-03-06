@@ -7,9 +7,11 @@ import purple from '../assets/backgrounds/purpleBlueBackground.png'
 import orange from '../assets/backgrounds/orangeBackground.png'
 import green from '../assets/backgrounds/greenBackground.png'
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useState, useEffect } from "react";
 
 export default function JournyScreen(props) {
     const keys = Object.keys(props.route.params.journy)
+    const [checkRatings, setCheckRatings] = useState(false)
     const backgroundDict = {
         "mood": pink,
         "productivity": orange,
@@ -19,6 +21,13 @@ export default function JournyScreen(props) {
     const formatDate = (entryDate) => {
         return entryDate.replace(/_/g, "/")
     }
+    useEffect(() => {
+        if (props.route.params.journy["rating"])
+        {
+            if (props.route.params.journy["rating"]["communication"] && props.route.params.journy["rating"]["productivity"] && props.route.params.journy["rating"]["teamwork"])
+            { setCheckRatings(true)}
+        }
+    }, [props.route.params.journy]);
     const renderResponses = keys.map((entry, idx) => {
         if (entry != "rating" && entry != "entry-date") {
             return (
@@ -40,7 +49,7 @@ export default function JournyScreen(props) {
                     <Text style={[styles.text, { fontSize: 35 }]}>{props.route.params.journal.name}'s Journy on {formatDate(props.route.params.entryDate)}</Text>
                 </View>
                 <View style={{ backgroundColor: 'white', borderRadius: 20, position: 'absolute', top: 130 }} >
-                    <TeamRating user={props.route.params.user} journy={props.route.params.journy} />
+                    {checkRatings && <TeamRating user={props.route.params.user} journy={props.route.params.journy} />}
                 </View>
                 <View style={{ position: 'absolute', top: 340, height: 400 }}>
                     <ScrollView>
