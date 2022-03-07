@@ -5,6 +5,7 @@ import pink from '../assets/backgrounds/pinkBackground.png'
 import purple from '../assets/backgrounds/purpleBlueBackground.png'
 import orange from '../assets/backgrounds/orangeBackground.png'
 import green from '../assets/backgrounds/greenBackground.png'
+import Tappable from "./tappable";
 
 import { useState, useEffect } from "react";
 const RecentJourny = (props) => {
@@ -50,7 +51,6 @@ const RecentJourny = (props) => {
                             <Text style={[styles.text, { padding: 5, fontSize: 30, textAlign: 'left' }]}>{props.journy[keys[1]]["writing-response"]}</Text>
                         </ImageBackground>}
                 </View>
-
             </View>
         </View>
 
