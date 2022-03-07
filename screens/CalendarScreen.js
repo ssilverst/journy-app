@@ -144,16 +144,16 @@ export default function CalendarScreen(props) {
         <View style={[styles.container]}>
             <ImageBackground source={gradient} resizeMode="stretch" style={[styles.image,]}>
                 <Text style={[styles.text, { position: 'absolute', top: 30, fontSize: 35 }]}>Check your team's progress</Text>
-                <View style={{ position: 'absolute', top: 100, right: 40, display: 'flex', flexDirection: 'row' }}>
-                    <TouchableOpacity onPress={() => setSelected('stats')}><Ionicons name="stats-chart" size={30} color={selected == "stats" ? "black" : "#a7c4b3"} /></TouchableOpacity>
-                    <TouchableOpacity onPress={() => setSelected('calendar')}><AntDesign name="calendar" size={30} color={selected == "calendar" ? "black" : "#a7c4b3"} /></TouchableOpacity>
+                <View style={{ position: 'absolute', top: 100, right: 0, display: 'flex', flexDirection: 'row' }}>
+                    <TouchableOpacity style={[{padding: 10, backgroundColor: '#ece9d6', borderRadius: 10, paddingLeft: 20, paddingRight: 20, margin: 10, borderWidth: 2}, selected != "stats" && {backgroundColor: '#ccc'}]} onPress={() => setSelected('stats')}><Ionicons name="stats-chart" size={20} color={"black"} /></TouchableOpacity>
+                    <TouchableOpacity style={[{padding: 10, backgroundColor: '#ece9d6', borderRadius: 10, paddingLeft: 20, paddingRight: 20, margin: 10, borderWidth: 2}, selected != "calendar" && {backgroundColor: '#ccc'}]} onPress={() => setSelected('calendar')}><AntDesign name="calendar" size={20} color={"black"} /></TouchableOpacity>
                 </View>
-                <View style={{ opacity: 0.7, backgroundColor: "#a7c4be", borderRadius: 20, overflow: 'hidden', position: 'absolute', top: 140 }}>
+                <View style={{ opacity: 0.80, backgroundColor: "#a7c4be", borderRadius: 20, overflow: 'hidden', position: 'absolute', top: 180 }}>
                     <View style={{ padding: 20, backgroundColor: "#bcd6e9", display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
                         <TouchableOpacity onPress={() => idx > 0 && setIdx(idx - 1)}>
                             <Ionicons name="arrow-back-circle" size={30} color="black" />
                         </TouchableOpacity>
-                        <Text style={[styles.text, { fontSize: 30 }]}>{title}</Text>
+                        <Text style={[styles.text, { fontSize: 30 }]}>{title.replace(',', '')}</Text>
                         <TouchableOpacity onPress={() => idx < monthsArrDict.length - 1 && setIdx(idx + 1)}>
                             <Ionicons name="arrow-forward-circle" size={30} color="black" />
                         </TouchableOpacity>

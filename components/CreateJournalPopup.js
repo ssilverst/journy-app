@@ -1,7 +1,6 @@
 import { StyleSheet, Text, TextInput, View, SafeAreaView, TouchableOpacity } from 'react-native';
 import * as Clipboard from 'expo-clipboard'
 import { Ionicons } from '@expo/vector-icons';
-
 import { useState } from 'react';
 import { v4 as uuidv4 } from "uuid";
 import database from "../config/firebase";
@@ -11,7 +10,6 @@ import { ref, set, onValue } from "firebase/database";
 export default function CreateJournalPopup(props) {
     const [journalName, setJournalName] = useState(null)
 
-    const journals = props.user.journals
     const [showCode, setShowCode] = useState(false)
     const JOURNAL_ID = uuidv4();
     return (

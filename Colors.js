@@ -1,6 +1,6 @@
 export const Colors = {
     buttonDefaultBackground: "#ccc",
-    popUpBorder: "tan",
-    popUpBackground: "orange",
+    popUpBorder: "#fcf2d9",
+    popUpBackground: "#fcf2d9",
     joinColor:  '#fffdd0',
 }

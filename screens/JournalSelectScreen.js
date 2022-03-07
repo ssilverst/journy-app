@@ -8,8 +8,7 @@ import CreateJournalPopup from '../components/CreateJournalPopup';
 import Book from '../components/book';
 import styles from '../Styles';
 import {Colors} from "../Colors";
-
-import { Ionicons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import useWindowDimensions from 'react-native/Libraries/Utilities/useWindowDimensions';
 export default function JournalSelectScreen(props) {
     const [showFacilitatorPopup, setShowFacilitatorPopup] = useState(false)
@@ -21,9 +20,6 @@ export default function JournalSelectScreen(props) {
     useEffect(() => {
         props.route.params.user.journals && setJournals(Object.keys(props.route.params.user.journals))
     }, []);
-    const addToJournal = (journalId) => {
-        setJournals(journals => [...journals, journalId])
-    }
     const renderJournals = journals.map((journalId, idx) => {
         return (
             <TouchableOpacity key={idx} style={{ padding: 10 }}>
@@ -41,12 +37,12 @@ export default function JournalSelectScreen(props) {
                             <Text style={[styles.text, {textAlign: 'left', fontSize: 30}]}>Welcome to Journy! To add your first team journal, tap the button below :) You can join an existing journal or create one as a team leader/facilitator. {'\n'}{'\n'}Facilitators will have the ability to give feedback to the group based on their journal entries (we call them the journy). </Text>
                         </View>}
                     </View>
-                    {showTeamPopup && <AddJournalPopup style={{ position: 'absolute', top: 60 }} showAlert={(alertText) => Alert.alert(alertText)} updateJournals={(journalId) => addToJournal(journalId)} user={props.route.params.user} closePopup={() => setShowTeamPopup(false)} />}
+                    {showTeamPopup && <AddJournalPopup style={{ position: 'absolute', top: 60 }} showAlert={(alertText) => Alert.alert(alertText)} updateJournals={(journalId) => setJournals(journals => [...journals, journalId])} user={props.route.params.user} closePopup={() => setShowTeamPopup(false)} />}
 
-                    {showFacilitatorPopup && <CreateJournalPopup style={{ position: 'absolute', top: 60 }} updateJournals={(journalId) => addToJournal(journalId)} navigation={props.navigation} user={props.route.params.user} closePopup={() => setShowFacilitatorPopup(false)} />}
+                    {showFacilitatorPopup && <CreateJournalPopup style={{ position: 'absolute', top: 60 }} updateJournals={(journalId) => setJournals(journals => [...journals, journalId])} navigation={props.navigation} user={props.route.params.user} closePopup={() => setShowFacilitatorPopup(false)} />}
 
                     {chooseRole &&
-                        <View style={{ position: 'absolute', borderRadius: 20, bottom: 80, display: 'flex', backgroundColor: Colors.joinColor }}>
+                        <View style={{ position: 'absolute', borderRadius: 20, bottom: 140, display: 'flex', backgroundColor: Colors.popUpBackground, }}>
                             <TouchableOpacity style={{ padding: 10, borderBottomWidth: 2 }} onPress={() => { setShowTeamPopup(true); setChooseRole(false) }} ><Text style={[styles.text, {fontSize: 30}]}>Join as Team Member</Text></TouchableOpacity>
                             <TouchableOpacity style={{ padding: 10 }} onPress={() => { setShowFacilitatorPopup(true); setChooseRole(false) }}><Text style={[styles.text, {fontSize: 30}]}>Create as Facilitator</Text></TouchableOpacity>
                         </View>
@@ -55,7 +51,7 @@ export default function JournalSelectScreen(props) {
                 <TouchableOpacity
                     onPress={() => setChooseRole(!chooseRole)}
                     style={journalStyles.addButton}>
-                    <Ionicons name="add-circle" size={50} color="black" />
+                    <AntDesign name={chooseRole ? 'minuscircle' : 'pluscircle'} size={50} color="black" />
                 </TouchableOpacity>
                 </ImageBackground>
             </View>
