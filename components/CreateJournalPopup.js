@@ -14,10 +14,10 @@ export default function CreateJournalPopup(props) {
     const JOURNAL_ID = uuidv4();
     return (
         <View style={createStyles.container}>
-            <TouchableOpacity style={{ left: 305 }} onPress={props.closePopup}><Ionicons name="close" size={24} color="black" /></TouchableOpacity>
+            <TouchableOpacity style={{ top: 0, zIndex: 2, position: 'absolute', right: 0 }} onPress={props.closePopup}><Ionicons name="close" size={24} color="black" /></TouchableOpacity>
             {!showCode ? <SafeAreaView style={{ display: 'flex', alignItems: 'center' }}>
                 <TextInput
-                    style={styles.input}
+                    style={[styles.input, {width: '80%'}]}
                     onChangeText={setJournalName}
                     value={journalName}
                     placeholder='Enter Your Team Name'
@@ -39,7 +39,7 @@ export default function CreateJournalPopup(props) {
                             facilitator: props.user.id,
                             id: JOURNAL_ID
                         })
-                        props.updateJournals(JOURNAL_ID)
+                        props.updateJournals(journal)
                     }}
                         text="CREATE JOURNAL"
                         type="normal"
@@ -53,12 +53,12 @@ export default function CreateJournalPopup(props) {
                 <SafeAreaView>
                     <Text style={[styles.text, { fontSize: 30 }]}>Shareable Code:</Text>
                     <View style={{ width: 300, padding: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-                        <Text style={[styles.text, { fontSize: 20 }]}>{JOURNAL_ID}</Text>
+                        <Text style={[styles.text, { fontSize: 15 }]}>{JOURNAL_ID}</Text>
                         <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => Clipboard.setString(JOURNAL_ID)}>
                             <Ionicons name="ios-copy-outline" size={24} color="black" />
                         </TouchableOpacity>
                     </View>
-                    <Text>When team members on this team log in, have them enter this code to access this journal.</Text>
+                    <Text style={[styles.text, {fontSize: 25}]}>When team members on this team log in, have them enter this code to access this journal.</Text>
                 </SafeAreaView>}
         </View>
     );
@@ -69,8 +69,8 @@ const createStyles = StyleSheet.create({
         borderColor: '#fcf2d9',
         backgroundColor: '#fcf2d9',
         borderWidth: 6,
+        opacity: 0.95,
         borderRadius: 20,
-        height: 200,
         display: 'flex',
         alignContent: 'center',
         justifyContent: 'center',

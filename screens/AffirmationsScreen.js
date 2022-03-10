@@ -1,74 +1,61 @@
-import { View, Text, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, ImageBackground, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { useState } from 'react';
 import Tappable from '../components/tappable';
 import { AntDesign } from '@expo/vector-icons';
-import exStyles from "../Styles";
-import orange from "../assets/backgrounds/orangeBackground.png";
+import styles from "../Styles";
+import gray from '../assets/backgrounds/grayBackground.png'
+import database from "../config/firebase";
+import { ref, set, onValue } from "firebase/database";
+import { v4 as uuidv4 } from "uuid";
 
 export default function AffirmationsScreen(props) {
+    const [affirmation, setAffirmation] = useState(null)
+    const FEEDBACK_ID = uuidv4();
 
-    const questions = [
-        "You are doing great!",
-        "Keep up the good work",
-        "I'm really impressed with your outstanding work ethic."
-    ];
-
-    const [curPrompt, setCurPrompt] = useState(questions[0]);
-    const [curI, setCurI] = useState(1);
-    console.log(questions.length);
     return (
-        <View style={exStyles.container}>
-            <ImageBackground source={orange} resizeMode="stretch" style={exStyles.image}>
-                
-                <View style={{ alignItems: "center", display: 'flex', height: '25%', width: '90%', flexDirection: 'row', justifyContent: 'space-evenly', marginVertical: '5%' }}>
-                    <TouchableOpacity
-                        onPress={() => {
-                            if (curI == 0) {
-                                setCurI(questions.length - 1);
-                            } else {
-                                setCurI(curI - 1);
-                            }
-                            setCurPrompt(questions[curI % questions.length]);
-                            console.log(curPrompt);
-                            console.log(curI);
-                        }}>
-                        <AntDesign name="leftcircleo" size={35} color="black" />
-                    </TouchableOpacity>
-                    <Text style={[exStyles.text, { fontSize: 30, width:"70%" }]}> "{curPrompt}" </Text>
-                    <TouchableOpacity
-                        onPress={() => {
-                            setCurI(curI + 1);
-                            setCurPrompt(questions[curI % questions.length]);
-                            console.log(curPrompt);
-                            console.log(curI);
-                        }}>
-                        <AntDesign name="rightcircleo" size={35} color="black" />
-                    </TouchableOpacity>
-                </View>
-                <View>
-                    <Tappable
-                        onPress={() => {
-                            /*const promptObject = {
-                                "image": background,
-                                "prompt": curPrompt,
-                                "promptType": props.route.params.prompts
-                            }*/
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 
-                            // TODO: Record affirmation into the database
+            <View style={styles.container}>
+                <ImageBackground source={gray} resizeMode="stretch" style={styles.image}>
+                    <View style={{ top: 20, }} ><Text style={[styles.text, { fontSize: 40 }]}>What words of affirmation do you have for your team?</Text></View>
+                    <View style={{ marginTop: 30 }}>
+                        <TextInput
+                            style={{ padding: 10, width: 320, borderRadius: 20, borderWidth: 1, fontSize: 30, fontFamily: 'CreamShoes', textAlignVertical: 'top' }}
+                            onChangeText={setAffirmation}
+                            multiline={true}
+                            numberOfLines={6}
+                            value={affirmation}
+                            placeholder='Write your thoughts here...'
+                        />
+                    </View>
+                    <View>
+                        <Tappable
+                            onPress={() => {
+                                if (!performance && !quality && !attitude && !communication && !goals && !reason) {
+                                    Alert.alert("What feedback do you have for your team?")
+                                }
+                                else {
+                                    const feedback = {
+                                        'type': 'affirmation',
+                                        'affirmation': affirmation
+                                    }
+                                    set(ref(database, "journals/" + props.route.params.journal.id + "/journys/" + props.route.params.entryDate + "/feedback/" + FEEDBACK_ID), feedback)
+                                    set(ref(database, "journals/" + props.route.params.journal.id + "/feedback/" + props.route.params.entryDate + '/' + FEEDBACK_ID), feedback)
 
-
-                            props.navigation.navigate("HomeScreenTeamMember", {journal: props.route.params.journal})
-                            //props.navigation.navigate("WritingPromptScreen", { journal: props.route.params.journal, entryDate: props.route.params.entryDate, user: props.route.params.user, journyPath: props.route.params.journyPath, promptObject: promptObject })
-                        }}
-                        text="Use Affirmation"
-                        type="normal"
-                        fontSize={30}
-                        borderColor="black"
-                    />
-                </View>
+                                    props.navigation.navigate("SentFeedbackScreen", { journal: props.route.params.journal, user: props.route.params.user })
+                                }
+                            }}
+                            text="SEND FEEDBACK"
+                            type="normal"
+                            fontSize={30}
+                            borderColor="black"
+                        />
+                    </View>
 
 
-            </ImageBackground>
-        </View>
+                </ImageBackground>
+            </View>
+        </TouchableWithoutFeedback>
+
     );
 }

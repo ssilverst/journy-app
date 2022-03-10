@@ -47,7 +47,7 @@ export default function CreateJournalPopup(props) {
                     <Text>When team members on this team log in, have them enter this code to access this journal.</Text>
                 </SafeAreaView>}
 
-        </View >
+        </View>
     );
 }
 

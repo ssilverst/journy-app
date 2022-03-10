@@ -1,4 +1,4 @@
-import { StyleSheet, Keyboard, Text, View, ImageBackground, TouchableWithoutFeedback } from 'react-native';
+import { Image, Keyboard, Text, View, ImageBackground, TouchableWithoutFeedback } from 'react-native';
 import { useState, useEffect } from 'react';
 import mountain from '../assets/backgrounds/littleMountains.png';
 import Tappable from '../components/tappable';
@@ -8,12 +8,16 @@ import { ref, set, onValue } from "firebase/database";
 import RecentJourny from '../components/recent_journy';
 import styles from '../Styles';
 import { AntDesign } from '@expo/vector-icons';
-
+import MenuBar from '../components/menubar';
+import JournalInfo from '../components/journalinfo';
+import { Colors } from '../Colors';
+import notificationIcon from '../assets/icons/notificationIcon.png'
 export default function HomeScreenTeamMember(props) {
     const [recentJourny, setRecentJourny] = useState(null)
     const [entryDate, setEntryDate] = useState(null)
     const [journyPath, setJournyPath] = useState(null)
     const [team, setTeam] = useState(null)
+    const [showInfo, setShowInfo] = useState(false)
     useEffect(() => {
         const today = new Date()
         const month = new Date().getMonth() + 1
@@ -43,12 +47,16 @@ export default function HomeScreenTeamMember(props) {
     const addRecentEntry = () => {
         if (recentJourny) {
             if (recentJourny == "none") {
-                props.navigation.navigate("PromptTypeScreen", { entryDate: entryDate, user: props.route.params.user, journal: props.route.params.journal, entryDate: entryDate, journyPath: journyPath })
+                return (
+                    <View style={{ backgroundColor: '#aecfb3', marginTop: 40, padding: 20, width: 300, borderRadius: 20 }}>
+                        <Text style={[styles.text, { textAlign: 'left', fontSize: 30 }]}>This is where you will see your team's most recent Journy. To start writing, tap on "New Journy". Happy journaling! </Text>
+                    </View>
+                )
             }
             else {
                 return (
-                    <TouchableOpacity onPress={() => props.navigation.navigate("JournyScreen", { team: team, user: props.route.params.user, journal: props.route.params.journal, journy: recentJourny, entryDate: recentJourny["entry-date"] })}>
-                        <RecentJourny style={{ maxHeight: 40 }} journy={recentJourny} user={props.route.params.user} entryDate={recentJourny["entry-date"]} />
+                    <TouchableOpacity style={{ position: 'absolute', top: 130, zIndex: 2 }} onPress={() => props.navigation.navigate("JournyScreen", { team: team, user: props.route.params.user, journal: props.route.params.journal, journy: recentJourny, entryDate: recentJourny["entry-date"] })}>
+                        <RecentJourny style={{ maxHeight: 40, }} journy={recentJourny} user={props.route.params.user} entryDate={recentJourny["entry-date"]} />
                     </TouchableOpacity>
                 )
             }
@@ -59,10 +67,17 @@ export default function HomeScreenTeamMember(props) {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.container}>
                 <ImageBackground source={mountain} resizeMode="stretch" style={styles.image}>
-                    <Text style={[styles.text, { fontSize: 50, position: 'absolute', top: 30 }]}>{props.route.params.journal.name}'s Journy</Text>
+                    <View style={{position: 'absolute', top: 20, right: 20, zIndex: 4, width: 30}}>
+                        <TouchableOpacity onPress={() => props.navigation.navigate("FeedbackNotificationScreen", {team: team, user: props.route.params.user, journal: props.route.params.journal})}><Image style={{flex: 1, width: 30, height: 30, resizeMode: 'contain', }} source={notificationIcon} /></TouchableOpacity>
+                    </View>
+                    <Text style={[styles.text, { fontSize: 40, position: 'absolute', top: 30 }]}>{props.route.params.journal.name}'s Journy</Text>
                     {
                         addRecentEntry()
                     }
+                    <TouchableOpacity style={{ position: 'absolute', top: 80, right: 10, zIndex: 2 }} onPress={() => setShowInfo(true)}>
+                        <AntDesign name="sharealt" size={24} color="black" />
+                    </TouchableOpacity>
+
                     <View style={{ position: 'absolute', bottom: 20 }}>
 
                         <Tappable onPress={() => props.navigation.navigate("PromptTypeScreen", { entryDate: entryDate, user: props.route.params.user, journal: props.route.params.journal, journyPath: journyPath })}
@@ -71,9 +86,11 @@ export default function HomeScreenTeamMember(props) {
                             backgroundColor="white"
                             borderColor="black" />
                     </View>
-                    
-                    <TouchableOpacity onPress={() => props.navigation.navigate("CalendarScreen", { journal: props.route.params.journal })}><AntDesign name="calendar" size={50} color="black" /></TouchableOpacity>
+                    {showInfo && <View style={{ borderWidth: 2, position: 'absolute', padding: 10, borderRadius: 20, zIndex: 5, backgroundColor: Colors.popUpBackground }}>
+                        <JournalInfo closePopup={() => setShowInfo(false)} journal={props.route.params.journal} />
+                    </View>}
                 </ImageBackground>
+                <MenuBar selected="home" onCalendarPress={() => props.navigation.navigate("CalendarScreen", { journal: props.route.params.journal, user: props.route.params.user })} />
             </View>
         </TouchableWithoutFeedback>
     );

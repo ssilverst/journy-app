@@ -18,17 +18,15 @@ const RecentJourny = (props) => {
     }
     const [checkRatings, setCheckRatings] = useState(false)
     const formatDate = (entryDate) => {
-        return entryDate.replace(/_/g, "/")
+        if (entryDate) return entryDate.replace(/_/g, "/")
+        return null
     }
     useEffect(() => {
-        console.log(props.journy)
         setCheckRatings(false)
         if (props.journy["rating"])
         {
-            console.log('okay so far so good')
             if (props.journy["rating"]["communication"] && props.journy["rating"]["productivity"] && props.journy["rating"]["teamwork"])
             { 
-                console.log('great!')
                 setCheckRatings(true)
             }
         }

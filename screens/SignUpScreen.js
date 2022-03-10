@@ -8,6 +8,7 @@ import { ref, set, onValue } from "firebase/database";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import 'firebase/firestore'
 import styles from '../Styles';
+import useWindowDimensions from 'react-native/Libraries/Utilities/useWindowDimensions';
 
 const auth = getAuth();
 
@@ -15,40 +16,33 @@ export default function SignUpScreen(props) {
     const [nameText, setNameText] = useState("")
     const [emailText, setEmailText] = useState("")
     const [passwordText, setPasswordText] = useState("")
-    const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(null);
-    const [items, setItems] = useState([
-        { label: 'Team Member', value: 'team-member' },
-        { label: 'Facilitator', value: 'facilitator' }
-    ]);
-    
+    const windowHeight = useWindowDimensions().height;
 
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <View style={styles.container}>
+            <View style={[{ minHeight: Math.round(windowHeight) }, styles.container]}>
                 <ImageBackground source={home} resizeMode="stretch" style={styles.image}>
-                    <SafeAreaView>
+                <SafeAreaView style={{position: 'absolute', top: 200}}>
                         <TextInput
-                            style={styles.input}
+                            style={[styles.input, {fontSize: 40}]}
                             onChangeText={setNameText}
                             value={nameText}
                             placeholder='Name'
                         />
                         <TextInput
-                            style={styles.input}
+                            style={[styles.input, {fontSize: 40}]}
                             onChangeText={setEmailText}
                             value={emailText}
                             placeholder='Email'
                         />
                         <TextInput
-                            style={styles.input}
+                            style={[styles.input, {fontSize: 40}]}
                             onChangeText={setPasswordText}
                             value={passwordText}
                             secureTextEntry={true}
                             placeholder='Password'
                         />
-                    </SafeAreaView>
                     <Tappable onPress={() => {
                         createUserWithEmailAndPassword(auth, emailText, passwordText)
                             .then((userCredential) => {
@@ -70,8 +64,9 @@ export default function SignUpScreen(props) {
                                 console.log(error)
                             });
                     }} text={"SIGN UP"} type={"underlined"}/>
+                    </SafeAreaView>
                 </ImageBackground>
             </View>
-        </TouchableWithoutFeedback >
+        </TouchableWithoutFeedback>
     );
 }

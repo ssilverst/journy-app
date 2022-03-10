@@ -20,7 +20,11 @@ import AffirmationsScreen from './screens/AffirmationsScreen';
 import { useFonts } from '@use-expo/font';
 import AppLoading from 'expo-app-loading';
 import { LogBox } from 'react-native';
-
+import DiscussionPoints from './screens/DiscussionPointsScreen';
+import SentFeedbackScreen from './screens/SentFeedbackScreen';
+import FreeFeedback from './screens/FreeFeedbackScreen';
+import FeedbackFacilitatorScreen from './screens/FeedbackFacilitatorScreen';
+import FeedbackNotificationScreen from './screens/FeedbackNotificationsScreen';
 const customFonts = {
   CreamShoes: require("./assets/fonts/CreamShoes.ttf"),
 };
@@ -120,6 +124,31 @@ export default function RootAppNavigator() {
           name="AffirmationsScreen"
           component={AffirmationsScreen}
           options={{ title: 'Journy' }}
+        />
+        <Stack.Screen
+          name="DiscussionPoints"
+          component={DiscussionPoints}
+          options={{ title: 'Journy' }}
+        />
+        <Stack.Screen
+          name="SentFeedbackScreen"
+          component={SentFeedbackScreen}
+          options={{ title: 'Journy' }}
+        />
+        <Stack.Screen
+          name="FreeFeedback"
+          component={FreeFeedback}
+          options={{ title: 'Journy' }}
+        />
+        <Stack.Screen
+          name="FeedbackFacilitatorScreen"
+          component={FeedbackFacilitatorScreen}
+          options={{ title: 'Journy' }}
+        />
+        <Stack.Screen
+          name="FeedbackNotificationScreen"
+          component={FeedbackNotificationScreen}
+          options={{ title: 'Journy'}}
         />
       </Stack.Navigator>
     </NavigationContainer>

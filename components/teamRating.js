@@ -13,8 +13,6 @@ const TeamRating = (props)  => {
     }
 
     useEffect(() => {
-        console.log(`IM PRINTING THIS: `)
-        console.log(props.journy)
         if (props.journy["rating"]) {
 
             const averages = []

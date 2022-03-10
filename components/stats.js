@@ -3,13 +3,15 @@ import { useState, useEffect } from "react";
 import { View, Text, Image } from 'react-native';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { onValue, ref } from "@firebase/database";
+import { Ionicons, AntDesign } from '@expo/vector-icons';
 
 import database from "../config/firebase";
 export default function Stats(props) {
-    const { idx, monthsArrDict, monthsToNums, days, journal } = props
+    const { navigation, idx, team, monthsArrDict, monthsToNums, days, journal, user } = props
     const faces = [require('../assets/faces/face4.png'), require('../assets/faces/face3.png'), require('../assets/faces/face2.png'), require('../assets/faces/face1.png'), require('../assets/faces/face0.png')]
     const [data, setData] = useState([])
     const [labels, setLabels] = useState([])
+    const [showLabel, setShowLabel] = useState(null)
 
     const renderLabels = labels.map((label, idx) => {
         return (
@@ -38,24 +40,31 @@ export default function Stats(props) {
                 onValue(ref(database, "journals/" + journal.id + "/journys/" + datePath), (snapshot) => {
                     if (snapshot.val()) {
                         faceValue = snapshot.val()
-                        var teamRatings = Object.values(faceValue["rating"]["teamwork"])
-                        var total = 0
-                        var avg = 0
-                        for (var i = 0; i < teamRatings.length; i++) {
-                            total += teamRatings[i];
+                        if (faceValue){
+                            if (faceValue["rating"])
+                            {
+                                var teamRatings = Object.values(faceValue["rating"]["teamwork"])
+                                var total = 0
+                                var avg = 0
+                                for (var i = 0; i < teamRatings.length; i++) {
+                                    total += teamRatings[i];
+                                }
+                                avg = (total / teamRatings.length)
+                                var dayData = {
+                                    "x": w * 7 + currDay,
+                                    "y": avg,
+                                    "image": findFace(avg),
+                                    "journy": faceValue
+                                }
+                                setData(data => [...data, dayData])
+                            }
                         }
-                        avg = (total / teamRatings.length)
-                        var dayData = {
-                            "x": w * 7 + currDay,
-                            "y": avg,
-                            "image": findFace(avg)
-                        }
-                        setData(data => [...data, dayData])
                     }
 
                 })
             }
         }
+        console.log(data)
     }, [props.idx, days]);
     const findColor = (rating) => {
         if (rating < 0.3) return '#f0914a'
@@ -66,8 +75,8 @@ export default function Stats(props) {
     }
     const renderData = data.map((datum, idx) => {
         return (
-            <View key={idx} style={{ zIndex: 1, marginLeft: (270 * (datum.x / (7 * days.length))), height: 1, position: 'absolute' }}>
-                <TouchableOpacity style={{ marginTop: (200 - (200 * (datum.y))), borderWidth: 1, width: 20, height: 20, borderRadius: 10, opacity: 1, backgroundColor: findColor(datum.y) }}></TouchableOpacity>
+            <View key={idx} style={{ zIndex: 1, marginTop: (200 - (200 * (datum.y))), marginLeft: (270 * (datum.x / (7 * days.length))), height: 1, position: 'absolute' }}>
+                <TouchableOpacity onPress={() => props.navigation.navigate("JournyScreen", { team: team, journy: datum.journy, journal: journal, user: user, entryDate: datum.journy["entry-date"] })} style={{ borderWidth: 1, width: 20, height: 20, borderRadius: 10, opacity: 1, backgroundColor: findColor(datum.y) }}></TouchableOpacity>
             </View>
         )
 
@@ -86,10 +95,7 @@ export default function Stats(props) {
         )
     })
     return (
-        <View style={{ padding: 20, backgroundCololr: 'white',}}>
-            <View style={{ position: 'absolute', marginLeft: 50, marginTop: 20, height: 200, width: 270 }}>
-                {renderData}
-            </View>
+        <View style={{ padding: 20, backgroundCololr: 'white', }}>
             <View style={{ position: 'absolute', marginLeft: 20, marginTop: 20, flexDirection: 'column', display: 'flex', justifyContent: 'space-between', height: 200 }}>
                 {renderAxis}
             </View>
@@ -99,7 +105,10 @@ export default function Stats(props) {
                     {renderLabels}
                 </View>
             </View>
-            <View style={{position: 'absolute', backgroundColor: 'white', width: 400, height: 400, zIndex: -2}}></View>
+            <View style={{ position: 'absolute', marginLeft: 50, marginTop: 20, height: 200, width: 270 }}>
+                {renderData}
+            </View>
+            <View style={{ position: 'absolute', backgroundColor: 'white', width: 400, height: 400, zIndex: -2 }}></View>
         </View>
 
     );

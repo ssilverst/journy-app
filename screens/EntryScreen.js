@@ -26,16 +26,16 @@ export default function EntryScreen(props) {
             <ImageBackground source={backgroundDict[props.route.params.entry["type"]]} resizeMode="stretch" imageStyle={{ borderTopLeftRadius: 20, borderTopRightRadius: 20 }} style={[styles.image, { top: '2%' }]}>
                 <View style={{height: 630, position: 'absolute', top: 90 }}>
                     <ScrollView style={{ margin: 10, }}>
-                        <Text style={[styles.text, { fontSize: 50, marginBottom: 20, textAlign: 'left', textDecorationLine: 'underline' }]}>"{props.route.params.entry["prompt"]}"</Text>
-                        <Text style={[styles.text, { fontSize: 40, textAlign: 'left' }]}>{props.route.params.team[props.route.params.entry["user"]].name} says: <Text style={[styles.text, { fontSize: 30, textAlign: 'left' }]} >{props.route.params.entry["writing-response"]}</Text></Text>
+                        <Text style={[styles.text, { fontSize: 30, marginBottom: 20, textAlign: 'left', textDecorationLine: 'underline' }]}>"{props.route.params.entry["prompt"]}"</Text>
+                        <Text style={[styles.text, { fontSize: 50, textAlign: 'left' }]}>{props.route.params.team[props.route.params.entry["user"]].name} says: <Text style={[styles.text, { fontSize: 50, textAlign: 'left' }]} >{props.route.params.entry["writing-response"]}</Text></Text>
 
-                        <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+                        <View style={{ marginTop: 20, display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
                             {renderImages}
                         </View>
                     </ScrollView>
                 </View>
-                <FontAwesome style={{ position: 'absolute', top: 40, left: 20 }} name="quote-right" size={40} color="white" />
-                <FontAwesome style={{ position: 'absolute', bottom: 40, right: 20 }} name="quote-left" size={40} color="white" />
+                <FontAwesome style={{ position: 'absolute', top: 40, left: 20 }} name="quote-left" size={40} color="white" />
+                <FontAwesome style={{ position: 'absolute', bottom: 40, right: 20 }} name="quote-right" size={40} color="white" />
             </ImageBackground>
         </View>
 

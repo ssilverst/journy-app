@@ -1,23 +1,22 @@
 import styles from "../Styles";
 import { TouchableOpacity, View, Text, StyleSheet, Image } from 'react-native';
 import calendarIcon from '../assets/icons/calendarIcon.png';
-import barGraphIcon from '../assets/icons/barGraphIcon.png';
+import calendarIconFill from '../assets/icons/calendarIconFill.png';
+import mountainIconFill from '../assets/icons/mountainIconFill.png';
 import mountainIcon from '../assets/icons/mountainIcon.png';
+import { Colors } from "../Colors";
 
 const MenuBar = (props) => {
 
     return (
         <View style={menuStyle.container}>
-            <TouchableOpacity onPress={props.onPress}>
-                <Image source={barGraphIcon} style={menuStyle.image} />
+
+            <TouchableOpacity onPress={props.onHomePress}>
+                <Image source={props.selected == 'home' ? mountainIconFill : mountainIcon} style={menuStyle.image} />
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={props.onPress}>
-                <Image source={mountainIcon} style={menuStyle.image} />
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={props.onPress}>
-                <Image source={calendarIcon} style={menuStyle.image} />
+            <TouchableOpacity onPress={props.onCalendarPress}>
+                <Image source={props.selected == 'calendar' ? calendarIconFill : calendarIcon} style={menuStyle.image} />
             </TouchableOpacity>
 
         </View>
@@ -35,11 +34,16 @@ const menuStyle = StyleSheet.create({
     container: {
         marginTop: 'auto',
         borderWidth: 5,
+        borderBottomWidth: 0,
         borderColor: "black",
-        backgroundColor: "white",
+        backgroundColor: Colors.defaultBackground,
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
         padding: 5,
+        width: '100%',
+        borderTopRightRadius: 20,
+        borderTopLeftRadius: 20,
+
     }
 })

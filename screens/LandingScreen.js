@@ -1,27 +1,18 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground } from 'react-native';
+import { Text, View, ImageBackground, Image } from 'react-native';
 import home from '../assets/homescreen.png'
-import AppLoading from 'expo-app-loading';
 import styles from '../Styles';
-import {Colors} from '../Colors';
 import Tappable from '../components/tappable';
-
+import logo from '../assets/icons/logo.png'
 export default function LandingScreen(props) {
     return ( 
         <View style={styles.container}>
             <ImageBackground source={home} resizeMode="stretch" style={styles.image}>
-                <Tappable 
-                    onPress={() => props.navigation.navigate("TestingScreen")}
-                    text="tester"
-                    type="underlined"
-                />
-                <Text style={styles.title}>Journy</Text>
+                <Image style={{width: 300, height: 80, marginBottom: 50}} source={logo} />
                 <View style={styles.buttons}>
                     <Tappable 
                         onPress={() => props.navigation.navigate("SignInScreen")}
                         text="SIGN IN"
                         type="normal"
-                        //borderColor="white"
-                        //backgroundColor={Colors.buttonDefaultBackground}
                     />
                 </View>
                 <Tappable

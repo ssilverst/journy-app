@@ -5,10 +5,6 @@ import exStyles from "../Styles";
 import { useState } from 'react';
 import Rating from '../components/rating';
 export default function RatingsScreen(props) {
-    console.log("my props are wrong so i am debugging")
-    console.log(props.route.params.user)
-    console.log(props.route.params.journyPath)
-    console.log(props.route.params.journal)
     const [commSelected, setCommSelected] = useState(null)
     const [prodSelected, setProdSelected] = useState(null)
     const [teamSelected, setTeamSelected] = useState(null)
@@ -28,7 +24,7 @@ export default function RatingsScreen(props) {
                 <Rating type="productivity" updateRating={(score) => setProdSelected(score)} journyPath={props.route.params.journyPath} user={props.route.params.user}/>
                 <Rating type="teamwork" updateRating={(score) => setTeamSelected(score)} journyPath={props.route.params.journyPath} user={props.route.params.user}/>
                 <Tappable
-                    text="Close Journy" 
+                    text="FINISH" 
                     type="normal"
                     onPress={() => closeJournal()}
                     />

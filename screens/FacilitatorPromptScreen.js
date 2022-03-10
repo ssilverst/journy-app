@@ -16,24 +16,32 @@ export default function FacilitatorPromptScreen(props) {
                         journal: props.route.params.journal, 
                         entryDate: props.route.params.entryDate, 
                         user: props.route.params.user, 
-                        journyPath: props.route.params.journyPath, 
                         prompts: "communication"})}
                     text="WORDS OF AFFIRMATION"
                     type="normal"
-                    borderColor="white"
-                    backgroundColor="#eec87c"
+                    borderColor="black"
+                    backgroundColor="white"
                 />
                 <Tappable 
-                    onPress={() => props.navigation.navigate("WritingPromptScreen", {
+                    onPress={() => props.navigation.navigate("DiscussionPoints", {
+                        journal: props.route.params.journal, 
+                        entryDate: props.route.params.entryDate, 
+                        user: props.route.params.user})}
+                    text="DISCUSSION POINTS"
+                    type="normal"
+                    borderColor="black"
+                    backgroundColor="white"
+                />
+                <Tappable 
+                    onPress={() => props.navigation.navigate("FreeFeedback", {
                         journal: props.route.params.journal, 
                         entryDate: props.route.params.entryDate, 
                         user: props.route.params.user, 
-                        journyPath: props.route.params.journyPath, 
-                        promptObject: {image: prompts["free"].image, prompt: prompts["free"].prompts[0], promptType: 'free'}})}
-                    text="Draft You Own"
+                        })}
+                    text="DRAFT YOUR OWN"
                     type="normal"
-                    borderColor="white"
-                    backgroundColor="#a8d3c0"
+                    borderColor="black"
+                    backgroundColor="white"
                 />
 
             </ImageBackground>

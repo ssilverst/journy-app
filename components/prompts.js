@@ -25,7 +25,7 @@ const prompts = {
             "Where were you most successful today?",
             "What were your biggest breakthroughs today?",
             "How have you been managing your time lately?",
-            "What are your goals for tomorrow? [next work session?]",
+            "What are your goals your next work session?",
             "How has the team been progressing towards goals?",
             "What is the largest way you contribute to the team?"
         ]

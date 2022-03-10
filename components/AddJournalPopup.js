@@ -13,49 +13,56 @@ export default function AddJournalPopup(props) {
     return (
         <View style={addStyles.container}>
             <SafeAreaView>
-                <TouchableOpacity style={{ left: 305 }} onPress={props.closePopup}><Ionicons name="close" size={24} color="black" /></TouchableOpacity>
+                <TouchableOpacity style={{ top: 0, zIndex: 2, position: 'absolute', right: 10 }} onPress={props.closePopup}><Ionicons name="close" size={24} color="black" /></TouchableOpacity>
                 <SafeAreaView style={{ display: 'flex', alignItems: 'center' }}>
                     <TextInput
-                        style={styles.input}
+                        style={[styles.input, {marginTop: 30, }]}
                         onChangeText={setJournalCode}
                         value={journalCode}
                         placeholder='Enter a Journal Code'
-                    /></SafeAreaView>
-                <Tappable onPress={() => {
-                    onValue(ref(database, "journals/" + journalCode), (snapshot) => {
-                        // does the user have any journals
-                        if (journals) {
-                            // does the user already have this journal
-                            if (journals[journalCode]) {
+                    />
+                    <View style={{ width: 200, }}>
+                        <Tappable onPress={() => {
+                            var checkingAlreadyHave = false
+                            onValue(ref(database, "journals/" + journalCode), (snapshot) => {
+                                // does the user have any journals
                                 if (snapshot.exists()) {
-                                    props.updateJournals(journalCode)
-                                    // we will update the users in this journal to include current user
-                                    set(ref(database, 'journals/' + journalCode + '/users/' + USER_ID), props.user)
-                                    // update the journals for the user
-                                    set(ref(database, 'users/' + props.user.id + '/journals/' + JOURNAL_ID), {
-                                        name: snapshot.val().name,
-                                        facilitator: snapshot.val().facilitator,
-                                        id: snapshot.val().id
-                                    })
+                                    if (journals) {
+                                        if (journals[journalCode]) {
+                                            checkingAlreadyHave = true
+                                            props.closePopup()
+                                            props.showAlert("You already have this journal")
+                                        }
+                                    }
+                                    if (!checkingAlreadyHave) {
+                                        var journalObj = {
+                                            name: snapshot.val().name,
+                                            facilitator: snapshot.val().facilitator,
+                                            id: snapshot.val().id
+                                        }
+                                        // we will update the users in this journal to include current user
+                                        set(ref(database, 'journals/' + journalCode + '/users/' + props.user.id), props.user)
+                                        // update the journals for the user
+                                        set(ref(database, 'users/' + props.user.id + '/journals/' + journalCode), journalObj)
+                                        props.updateJournals(journalObj)
+                                    }
 
                                 }
                                 else {
-                                    props.showAlert("Check the code you are using. This journal does not exist.")
+                                    props.showAlert("Check the code you are using; this journal does not exist.")
                                 }
-                            }
-                            else {
-                                props.showAlert("You already have this journal")
-                            }
-                        }
-                        props.closePopup()
-                    });
-                }}
-                    text="ADD JOURNAL"
-                    type="normal"
-                    backgroundColor="white"
-                    borderColor="black"
-                    fontSize={25}
-                />
+
+                                props.closePopup()
+                            });
+                        }}
+                            text="ADD JOURNAL"
+                            type="normal"
+                            backgroundColor="white"
+                            borderColor="black"
+                            fontSize={25}
+                        />
+                    </View>
+                </SafeAreaView>
             </SafeAreaView>
         </View>
     );
@@ -67,7 +74,7 @@ const addStyles = StyleSheet.create({
         backgroundColor: Colors.popUpBackground,
         borderWidth: 6,
         borderRadius: 20,
-        height: 200,
+        opacity: 0.95,
         display: 'flex'
     },
 })

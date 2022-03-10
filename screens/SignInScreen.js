@@ -6,25 +6,27 @@ import { ref, set, onValue } from "firebase/database";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import styles from "../Styles";
 import Tappable from '../components/tappable';
+import useWindowDimensions from 'react-native/Libraries/Utilities/useWindowDimensions';
 
 const auth = getAuth();
 export default function SignInScreen(props) {
     const [emailText, setEmailText] = useState("")
     const [passwordText, setPasswordText] = useState("")
+    const windowHeight = useWindowDimensions().height;
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <View style={styles.container}>
-                <ImageBackground source={home} resizeMode="stretch" style={styles.image}>
-                    <SafeAreaView>
+            <View style={[{ minHeight: Math.round(windowHeight) }, styles.container]}>
+                <ImageBackground source={home} resizeMode="stretch" style={[styles.image, {display: 'flex', justifyContent: 'flex-start'}]}>
+                    <SafeAreaView style={{marginTop:200}}>
                         <TextInput
-                            style={styles.input}
+                            style={[styles.input, {fontSize: 40}]}
                             onChangeText={setEmailText}
                             value={emailText}
                             placeholder='Email'
                         />
                         <TextInput
-                            style={styles.input}
+                            style={[styles.input, {fontSize: 40}]}
                             onChangeText={setPasswordText}
                             value={passwordText}
                             secureTextEntry={true}
@@ -61,7 +63,7 @@ export default function SignInScreen(props) {
                     />
             </ImageBackground>
         </View>
-        </TouchableWithoutFeedback >
+        </TouchableWithoutFeedback>
     );
 }
 /*

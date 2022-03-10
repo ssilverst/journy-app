@@ -21,13 +21,15 @@ export default function Calendar(props) {
             faceValue = snapshot.val()
         })
         if (faceValue) {
-            var teamRatings = Object.values(faceValue["rating"]["teamwork"])
-            var total = 0
-            var avg = 0
-            for (var i = 0; i < teamRatings.length; i++) {
-                total += teamRatings[i];
+            if (faceValue["rating"]) {
+                var teamRatings = Object.values(faceValue["rating"]["teamwork"])
+                var total = 0
+                var avg = 0
+                for (var i = 0; i < teamRatings.length; i++) {
+                    total += teamRatings[i];
+                }
+                avg = (total / teamRatings.length)
             }
-            avg = (total / teamRatings.length)
         }
         return (
             <View>
