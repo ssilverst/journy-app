@@ -117,8 +117,8 @@ export default function FeedbackNotificationScreen(props) {
     return (
         <View style={[styles.container, { backgroundColor: '#ece8d6' }]}>
             <ImageBackground source={mountain} resizeMode="stretch" style={[styles.image]}>
-                <Text style={[styles.text, { top: 50, fontSize: 40 }]}>{facilitatorName}'s feedback</Text>
-                <View style={{ top: 130 }}>
+                <Text style={[styles.text, { position: 'absolute', top: 50, fontSize: 40 }]}>{facilitatorName}'s feedback</Text>
+                <View style={{ height: '80%', bottom: 0, position: 'absolute' }}>
                     <ScrollView>
                         {feedbackDates.length > 0 ? renderFeedback : <Text style={styles.text}>No feedback yet!</Text>}
                     </ScrollView>
