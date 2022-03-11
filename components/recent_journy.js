@@ -43,10 +43,12 @@ const RecentJourny = (props) => {
                         width: 130, height: 150, borderRadius: 10, overflow: 'hidden',
                     }}>
                         <Text style={[styles.text, { padding: 5, fontSize: 30, textAlign: 'left' }]}>{props.journy[keys[0]]["writing-response"]}</Text>
+                        {props.journy[keys[0]]["images"] && <Text style={[styles.text, {padding: 5, fontSize: 30, textAlign: 'center'}]}>Image posted</Text>}
                     </ImageBackground>
                     {keys.length > 1 &&
                         <ImageBackground source={backgroundDict[props.journy[keys[1]]["type"]]} style={{ width: 130, height: 150, borderRadius: 10, overflow: 'hidden' }}>
                             <Text style={[styles.text, { padding: 5, fontSize: 30, textAlign: 'left' }]}>{props.journy[keys[1]]["writing-response"]}</Text>
+                            {props.journy[keys[1]]["images"] && <Text style={[styles.text, {padding: 5, fontSize: 30, textAlign: 'center'}]}>Image posted</Text>}
                         </ImageBackground>}
                 </View>
             </View>
