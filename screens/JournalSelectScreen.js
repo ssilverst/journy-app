@@ -46,7 +46,7 @@ export default function JournalSelectScreen(props) {
             <View style={[{ minHeight: Math.round(windowHeight) }, styles.container]}>
                 <ImageBackground source={mountain} resizeMode="stretch" style={styles.image}>
                 <View style={{position: 'absolute', top: 50}}><Text style={[styles.text, {fontSize: 30}]}>Select a Journal</Text></View>
-                    <View style={{ position: 'absolute', top: 130, height: '60%' }}>
+                    <View style={{ position: 'absolute', top: 130, height: '50%' }}>
                         <ScrollView>
                             <View style={{ width: '100%', display: 'flex', alignItems: 'center', flexBasis: '100%', flexWrap: 'wrap', justifyContent: 'center', flexDirection: 'row' }}>
                                 {journalKeys.length > 0 ? renderJournals :

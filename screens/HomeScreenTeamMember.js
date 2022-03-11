@@ -1,4 +1,4 @@
-import { Image, Keyboard, Text, View, ImageBackground, TouchableWithoutFeedback } from 'react-native';
+import { Image, ScrollView, Keyboard, Text, View, ImageBackground, TouchableWithoutFeedback } from 'react-native';
 import { useState, useEffect } from 'react';
 import mountain from '../assets/backgrounds/littleMountains.png';
 import Tappable from '../components/tappable';
@@ -55,7 +55,7 @@ export default function HomeScreenTeamMember(props) {
             }
             else {
                 return (
-                    <TouchableOpacity style={{ position: 'absolute', top: 130, zIndex: 2 }} onPress={() => props.navigation.navigate("JournyScreen", { team: team, user: props.route.params.user, journal: props.route.params.journal, journy: recentJourny, entryDate: recentJourny["entry-date"] })}>
+                    <TouchableOpacity style={{ zIndex: 2 }} onPress={() => props.navigation.navigate("JournyScreen", { team: team, user: props.route.params.user, journal: props.route.params.journal, journy: recentJourny, entryDate: recentJourny["entry-date"] })}>
                         <RecentJourny style={{ maxHeight: 40, }} journy={recentJourny} user={props.route.params.user} entryDate={recentJourny["entry-date"]} />
                     </TouchableOpacity>
                 )
@@ -67,24 +67,27 @@ export default function HomeScreenTeamMember(props) {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={styles.container}>
                 <ImageBackground source={mountain} resizeMode="stretch" style={styles.image}>
-                    <View style={{position: 'absolute', top: 20, right: 20, zIndex: 4, width: 30}}>
-                        <TouchableOpacity onPress={() => props.navigation.navigate("FeedbackNotificationScreen", {team: team, user: props.route.params.user, journal: props.route.params.journal})}><Image style={{flex: 1, width: 30, height: 30, resizeMode: 'contain', }} source={notificationIcon} /></TouchableOpacity>
+                    <View style={{ position: 'absolute', top: 20, right: 20, zIndex: 4, width: 30 }}>
+                        <TouchableOpacity onPress={() => props.navigation.navigate("FeedbackNotificationScreen", { team: team, user: props.route.params.user, journal: props.route.params.journal })}><Image style={{ flex: 1, width: 30, height: 30, resizeMode: 'contain', }} source={notificationIcon} /></TouchableOpacity>
                     </View>
-                    <Text style={[styles.text, { fontSize: 40, position: 'absolute', top: 30 }]}>{props.route.params.journal.name}'s Journy</Text>
-                    {
-                        addRecentEntry()
-                    }
                     <TouchableOpacity style={{ position: 'absolute', top: 80, right: 10, zIndex: 2 }} onPress={() => setShowInfo(true)}>
                         <AntDesign name="sharealt" size={24} color="black" />
                     </TouchableOpacity>
+                    <Text style={[styles.text, { position: 'absolute', top: 20, fontSize: 40, }]}>{props.route.params.journal.name}'s Journy</Text>
+                    <View style={{position: 'absolute', height: '80%', top: 130}}>
+                        <ScrollView>
+                            {
+                                addRecentEntry()
+                            }
 
-                    <View style={{ position: 'absolute', bottom: 20 }}>
-
-                        <Tappable onPress={() => props.navigation.navigate("PromptTypeScreen", { entryDate: entryDate, user: props.route.params.user, journal: props.route.params.journal, journyPath: journyPath })}
-                            text="NEW JOURNY"
-                            type="normal"
-                            backgroundColor="white"
-                            borderColor="black" />
+                            <View style={{ }}>
+                                <Tappable onPress={() => props.navigation.navigate("PromptTypeScreen", { entryDate: entryDate, user: props.route.params.user, journal: props.route.params.journal, journyPath: journyPath })}
+                                    text="NEW JOURNY"
+                                    type="normal"
+                                    backgroundColor="white"
+                                    borderColor="black" />
+                            </View>
+                        </ScrollView>
                     </View>
                     {showInfo && <View style={{ borderWidth: 2, position: 'absolute', padding: 10, borderRadius: 20, zIndex: 5, backgroundColor: Colors.popUpBackground }}>
                         <JournalInfo closePopup={() => setShowInfo(false)} journal={props.route.params.journal} />

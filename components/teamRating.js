@@ -55,9 +55,9 @@ const TeamRating = (props)  => {
                         <View style={{ display: 'flex', flexDirection: 'row', }}>
                             <View style={{ display: 'flex', flexDirection: 'column', }}>
                                 <Text style={[styles.text, { height: 30, margin: 8, marginBottom: -10, fontSize: 20, textAlign: 'left' }]}></Text>
-                                <Text style={[styles.text, { height: 30, margin: 8, fontSize: 30, textAlign: 'left' }]}>Communication: </Text>
-                                <Text style={[styles.text, { height: 30, margin: 8, fontSize: 30, textAlign: 'left' }]}>Productivity: </Text>
-                                <Text style={[styles.text, { height: 30, margin: 8, fontSize: 30, textAlign: 'left' }]}>Overall Teamwork: </Text>
+                                <Text style={[styles.text, { height: 30, margin: 8, fontSize: 25, textAlign: 'left' }]}>Communication: </Text>
+                                <Text style={[styles.text, { height: 30, margin: 8, fontSize: 25, textAlign: 'left' }]}>Productivity: </Text>
+                                <Text style={[styles.text, { height: 30, margin: 8, fontSize: 25, textAlign: 'left' }]}>Overall Teamwork: </Text>
                             </View>
                             <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                                 <Text style={[styles.text, { height: 30, margin: 8, marginBottom: -10, fontSize: 20, textAlign: 'center' }]}>TEAM</Text>
